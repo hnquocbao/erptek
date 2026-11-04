@@ -4,6 +4,8 @@ Marketing site for **ERPTEK**: AI readiness, company second brains and agent ass
 
 Built with [Astro](https://astro.build) (static output) and designed with the [Impeccable](https://github.com/pbakaus/impeccable) design skill. The skill is vendored in `.claude/skills/impeccable`, so Claude Code sessions in this repo have it as `/impeccable`.
 
+**Setting it up? Start with [docs/SETUP.md](docs/SETUP.md)**: every config step for the Google Sheet, email, captcha, environment variables and launch checks.
+
 ## Develop
 
 ```bash
