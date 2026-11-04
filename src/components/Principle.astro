@@ -1,0 +1,61 @@
+<section class="principle" aria-labelledby="principle-title">
+  <div class="wrap principle__grid">
+    <h2 id="principle-title">An assistant is only as good as the shelf it picks from.</h2>
+    <div class="principle__pair">
+      <div class="side side--bad">
+        <h3>Unlabeled warehouse</h3>
+        <p>The assistant guesses. It mixes last year's price list with this year's, quotes a procedure nobody follows, and within a month your staff stop trusting it.</p>
+      </div>
+      <div class="side side--good">
+        <h3>Labeled warehouse</h3>
+        <p>Every answer comes from the current version, with its source attached. Staff check it in one click, and the assistant gets used every day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .principle {
+    padding-block: var(--space-xl);
+  }
+  .principle__grid {
+    display: grid;
+    gap: var(--space-l);
+  }
+  h2 {
+    font-family: var(--font-stencil);
+    font-size: var(--step-4);
+    text-transform: uppercase;
+    max-width: 18ch;
+    line-height: 0.92;
+  }
+  .principle__pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-l);
+    max-width: 62rem;
+  }
+  .side {
+    display: grid;
+    gap: 0.6rem;
+    padding-top: var(--space-s);
+    border-top: 3px solid var(--ink);
+  }
+  .side--bad {
+    border-top-style: dashed;
+    color: var(--ink-soft);
+  }
+  .side h3 {
+    font-size: var(--step-1);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .side p {
+    max-width: 44ch;
+  }
+  @media (max-width: 44rem) {
+    .principle__pair {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

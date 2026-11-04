@@ -1,0 +1,695 @@
+---
+// First viewport: offer + working booking strip on the left, the live rack on the right.
+// All rack content is illustrative demo data for a fictional company.
+const bins = [
+  { code: 'FIN-01', name: 'Invoices & approvals', stock: 2 },
+  { code: 'SAL-01', name: 'Price lists', stock: 1 },
+  { code: 'INV-01', name: 'Stock & SKUs', stock: 3 },
+  { code: 'HR-01', name: 'Policies', stock: 2 },
+  { code: 'OPS-02', name: 'Procedures', stock: 1 },
+  { code: 'CUS-02', name: 'Customer emails', stock: 3 },
+  { code: 'PRJ-02', name: 'Project notes', stock: 1 },
+  { code: 'LEG-02', name: 'Contracts', stock: 1 },
+  { code: 'MTG-03', name: 'Meeting decisions', stock: 0 },
+  { code: 'PUR-03', name: 'Supplier terms', stock: 1 },
+  { code: 'QA-03', name: 'Quality checks', stock: 2 },
+  { code: 'TRN-03', name: 'Training', stock: 1 },
+];
+
+// Code-39-ish bar pattern derived from the bin code: decorative, deterministic.
+function bars(code: string) {
+  const out: { x: number; w: number }[] = [];
+  let x = 0;
+  for (const ch of code) {
+    const n = ch.charCodeAt(0);
+    for (let k = 0; k < 3; k++) {
+      const w = ((n >> k) & 1) + 1;
+      out.push({ x, w });
+      x += w + (((n >> (k + 3)) & 1) + 1);
+    }
+  }
+  return { rects: out, width: x };
+}
+
+const incoming = [
+  { file: 'pricing_2026_v7_USE-THIS.xlsx', kind: 'sheet', to: 'SAL-01' },
+  { file: 'Re: Re: distributor returns', kind: 'mail', to: 'CUS-02' },
+  { file: 'contract_ABC_signed (2).pdf', kind: 'doc', to: 'LEG-02' },
+  { file: 'packing-SOP-old-DONT-USE.docx', kind: 'doc', to: 'OPS-02' },
+  { file: 'chat: who signs POs now?', kind: 'chat', to: 'FIN-01' },
+  { file: 'mon-meeting-notes.txt', kind: 'note', to: 'MTG-03' },
+  { file: 'new_supplier_checklist.pdf', kind: 'doc', to: 'PUR-03' },
+];
+
+const questions = [
+  {
+    id: 'q1',
+    q: 'Can distributors return unopened stock?',
+    a: 'Yes, within 30 days, unopened and with the original delivery note. Orders over 50 units carry a 10% restocking fee.',
+    bins: ['LEG-02', 'SAL-01'],
+    src: ['LEG-02 · Distributor agreement v4 · §7.2', 'SAL-01 · Price list 2026 · Terms'],
+  },
+  {
+    id: 'q2',
+    q: 'Who approves a purchase over $5,000?',
+    a: 'The finance manager, then a director if the supplier is new. Raise it on form PO-2 in the ERP.',
+    bins: ['FIN-01', 'PUR-03'],
+    src: ['FIN-01 · Approval matrix 2026', 'PUR-03 · New supplier checklist'],
+  },
+  {
+    id: 'q3',
+    q: 'How do we pack fragile orders?',
+    a: 'Double box with 5 cm of fill on every side, a FRAGILE label on two faces, and a photo before sealing.',
+    bins: ['OPS-02', 'QA-03'],
+    src: ['OPS-02 · Packing procedure rev. 3', 'QA-03 · Damage claims review, March'],
+  },
+];
+---
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap hero__grid">
+    <div class="hero__copy">
+      <h1 id="hero-title">Every answer your company has, labeled and on&nbsp;the&nbsp;shelf.</h1>
+      <p class="hero__lede">
+        ERPTEK gets your data and workflows ready for AI, builds your company's second brain,
+        and gives each employee an assistant that finds, checks and acts on what you already know.
+      </p>
+
+      <form class="strip" data-booking="hero" novalidate>
+        <p class="strip__title" id="strip-title">Start with a free readiness call</p>
+        <div class="strip__fields" role="group" aria-labelledby="strip-title">
+          <div class="field">
+            <label for="hero-email">Work email</label>
+            <input class="input" id="hero-email" name="email" type="email" autocomplete="email" required placeholder="you@company.com" />
+          </div>
+          <div class="field">
+            <label for="hero-size">Company size</label>
+            <select class="input" id="hero-size" name="size" required>
+              <option value="">Choose</option>
+              <option>1–20 people</option>
+              <option>21–100 people</option>
+              <option>101–500 people</option>
+              <option>500+ people</option>
+            </select>
+          </div>
+          <button class="btn" type="submit">Book the call</button>
+        </div>
+        <p class="form-status" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <figure class="rack" data-rack aria-labelledby="rack-caption">
+      <figcaption id="rack-caption" class="rack__caption">
+        <span>Your files, put away and ready to pick</span>
+        <span class="rack__demo code">Demo data</span>
+      </figcaption>
+
+      <div class="dock" aria-label="Receiving: unsorted files">
+        <span class="dock__sign" aria-hidden="true">Receiving</span>
+        <ul class="dock__pile" data-dock>
+          {incoming.map((item, i) => (
+            <li class="slip" data-to={item.to} data-kind={item.kind} style={`--tilt:${[-3, 2, -1.5, 3.5, -2.5, 1, -4][i]}deg`}>
+              <svg class="slip__icon" viewBox="0 0 16 16" aria-hidden="true">
+                {item.kind === 'sheet' && <><rect x="2.5" y="1.5" width="11" height="13" rx="1" /><path d="M2.5 6h11M2.5 10h11M7 6v8.5" /></>}
+                {item.kind === 'mail' && <><rect x="1.5" y="3.5" width="13" height="9" rx="1" /><path d="M1.5 4.5 8 9l6.5-4.5" /></>}
+                {item.kind === 'doc' && <><path d="M3.5 1.5h6l3 3v10h-9z" /><path d="M9.5 1.5v3h3M5.5 8h5M5.5 11h5" /></>}
+                {item.kind === 'chat' && <path d="M2 3.5h12v7H7l-3 2.5v-2.5H2z" />}
+                {item.kind === 'note' && <><rect x="2.5" y="1.5" width="11" height="13" rx="1" /><path d="M5 5h6M5 8h6M5 11h3.5" /></>}
+              </svg>
+              <span class="code">{item.file}</span>
+            </li>
+          ))}
+        </ul>
+        <p class="dock__clear">Dock clear: {incoming.length} files labeled and shelved.</p>
+      </div>
+
+      <div class="frame">
+        <ul class="bins">
+          {bins.map((b) => (
+            <li class="bin" data-code={b.code}>
+              <div class="bin__stock" aria-hidden="true">
+                {Array.from({ length: b.stock }).map(() => <span class="box"></span>)}
+              </div>
+              <span class="tag">
+                <span class="tag__code code">{b.code}</span>
+                <span class="tag__name">{b.name}</span>
+                <span class="tag__count code" data-count>{b.stock}</span>
+                {(() => { const bc = bars(b.code); return (
+                  <svg class="tag__bars" viewBox={`0 0 ${bc.width} 10`} preserveAspectRatio="none" aria-hidden="true">
+                    {bc.rects.map((r) => <rect x={r.x} y="0" width={r.w} height="10" />)}
+                  </svg>
+                ); })()}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="ask" data-ask>
+        <p class="ask__title" id="ask-title">Ask the second brain</p>
+        <div class="ask__qs" role="group" aria-labelledby="ask-title">
+          {questions.map((q) => (
+            <button type="button" class="ask__q" data-q={q.id} aria-pressed="false">{q.q}</button>
+          ))}
+        </div>
+        <div class="answer" data-answer aria-live="polite">
+          <p class="answer__empty">Pick a question. The assistant answers only from labeled bins and shows where it looked.</p>
+        </div>
+        <script type="application/json" data-answers is:inline set:html={JSON.stringify(questions)}></script>
+      </div>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero {
+    overflow-x: clip;
+    padding-block: clamp(1.5rem, 0.5rem + 2.5vw, 3rem) var(--space-xl);
+  }
+  .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 1rem + 3vw, 4.5rem);
+    align-items: start;
+  }
+  .hero__copy {
+    display: grid;
+    gap: var(--space-m);
+    padding-top: clamp(0.25rem, 1vw, 1.25rem);
+  }
+  h1 {
+    font-size: clamp(2.7rem, 1.4rem + 3.6vw, 4.6rem);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.9;
+  }
+  .hero__lede {
+    font-size: var(--step-1);
+    line-height: 1.45;
+    max-width: 34ch;
+    color: var(--ink-soft);
+  }
+
+  /* Booking strip: a length of yellow floor tape the form sits on. */
+  .strip {
+    margin-top: var(--space-xs);
+    position: relative;
+    isolation: isolate;
+    padding: var(--space-m) var(--space-m) var(--space-m) 0;
+    color: var(--yellow-ink);
+    display: grid;
+    gap: var(--space-s);
+  }
+  /* The tape runs off the left edge of the viewport (both edges on mobile). */
+  .strip::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0 0 0 -100vmax;
+    background: var(--yellow);
+    border-block: 4px solid var(--ink);
+  }
+  .strip__title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--step-2);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .strip__fields {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: var(--space-s);
+    align-items: end;
+  }
+  .strip__fields .btn {
+    grid-column: 1 / -1;
+  }
+  .strip .form-status:empty {
+    display: none;
+  }
+
+  /* ---- The rack ---- */
+  .rack {
+    margin: 0;
+    display: grid;
+    gap: var(--space-s);
+  }
+  .rack__caption {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    font-weight: 700;
+    font-size: var(--step--1);
+  }
+  .rack__demo {
+    padding: 0.15rem 0.45rem;
+    border: 1.5px dashed var(--ink-soft);
+    border-radius: var(--radius);
+    color: var(--ink-soft);
+  }
+
+  .dock {
+    position: relative;
+    min-height: 7.5rem;
+    padding: 2.1rem var(--space-s) var(--space-s);
+    border: 2px dashed var(--ink-soft);
+    border-radius: var(--radius);
+    background: var(--concrete-deep);
+  }
+  .dock__sign {
+    position: absolute;
+    top: 0.5rem;
+    left: var(--space-s);
+    font-family: var(--font-stencil);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 1.05rem;
+    color: var(--ink-soft);
+  }
+  .dock__pile {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem 0.5rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .dock__clear {
+    display: none;
+    margin: 0;
+    font-weight: 700;
+    font-size: var(--step--1);
+    color: var(--ink-soft);
+  }
+  .rack.is-clear .dock {
+    min-height: 0;
+    padding-block: 0.55rem 0.45rem;
+    display: flex;
+    gap: 1rem;
+    align-items: baseline;
+    border-style: solid;
+    transition: padding 400ms var(--ease-out);
+  }
+  .rack.is-clear .dock__sign {
+    position: static;
+  }
+  .rack.is-clear .dock__pile {
+    display: none;
+  }
+  .rack.is-clear .dock__clear {
+    display: block;
+  }
+  .slip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.55rem 0.25rem;
+    background: var(--label);
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    box-shadow: var(--shadow-label);
+    transform: rotate(var(--tilt));
+    font-size: 0.95rem;
+    white-space: nowrap;
+    will-change: transform;
+  }
+  .slip__icon {
+    width: 0.95rem;
+    height: 0.95rem;
+    flex: none;
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+  }
+
+  .frame {
+    padding: 0 10px;
+    background:
+      linear-gradient(var(--upright), var(--upright)) left / 10px 100% no-repeat,
+      linear-gradient(var(--upright), var(--upright)) right / 10px 100% no-repeat;
+    border-radius: 2px;
+  }
+  .bins {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .bin {
+    position: relative;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    min-height: 6.4rem;
+    padding: 0.5rem 0.45rem 0.45rem;
+    border-bottom: 9px solid var(--beam);
+    border-inline: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+    background: color-mix(in srgb, var(--concrete-shade) 40%, var(--concrete));
+    transition: background-color 300ms var(--ease-out);
+  }
+  .bin__stock {
+    display: flex;
+    flex-wrap: wrap-reverse;
+    align-content: flex-start;
+    gap: 3px;
+    padding-bottom: 0.4rem;
+  }
+  .bin__stock :global(.box) {
+    width: 1.35rem;
+    height: 1rem;
+    background: #b68d5c;
+    border: 1px solid #7d5d37;
+    border-radius: 1px;
+  }
+  .bin__stock :global(.box.is-new) {
+    background: var(--label);
+    border-color: var(--ink);
+  }
+  .tag {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0 0.3rem;
+    padding: 0.3rem 0.4rem 0.25rem;
+    background: var(--label);
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    line-height: 1.15;
+    transition: background-color 300ms var(--ease-out), transform 300ms var(--ease-out);
+  }
+  .tag__code {
+    font-weight: 500;
+    font-size: 0.78rem;
+  }
+  .tag__count {
+    font-size: 0.78rem;
+    justify-self: end;
+  }
+  .tag__bars {
+    grid-column: 1 / -1;
+    width: 100%;
+    height: 0.55rem;
+    margin-top: 0.25rem;
+    fill: var(--ink);
+  }
+  .bin.is-picked .tag__bars {
+    fill: var(--label);
+  }
+  .tag__name {
+    grid-column: 1 / -1;
+    font-size: 0.8rem;
+    font-weight: 700;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .bin.is-put .tag {
+    background: var(--yellow);
+  }
+  .bin.is-picked {
+    background: var(--yellow);
+  }
+  .bin.is-picked .tag {
+    background: var(--ink);
+    color: var(--label);
+    border-color: var(--ink);
+    transform: translateY(-3px);
+  }
+  .bin.is-dim .bin__stock {
+    opacity: 0.35;
+  }
+  .bin.is-dim .tag {
+    background: var(--concrete);
+    border-color: #6b7070;
+    color: var(--ink-soft);
+  }
+  .bin.is-dim .tag__bars {
+    opacity: 0.4;
+  }
+
+  /* Ask bar */
+  .ask {
+    display: grid;
+    gap: 0.75rem;
+    padding: var(--space-s);
+    background: var(--ink);
+    color: var(--label);
+    border-radius: var(--radius);
+  }
+  .ask__title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 1.35rem;
+    letter-spacing: 0.02em;
+    line-height: 1;
+  }
+  .ask__qs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .ask__q {
+    padding: 0.5rem 0.75rem 0.4rem;
+    border: 1.5px solid var(--label);
+    border-radius: var(--radius);
+    background: transparent;
+    color: var(--label);
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 160ms var(--ease-out), color 160ms var(--ease-out);
+  }
+  .ask__q:hover {
+    background: color-mix(in srgb, var(--label) 14%, transparent);
+  }
+  .ask__q[aria-pressed='true'] {
+    background: var(--yellow);
+    border-color: var(--yellow);
+    color: var(--yellow-ink);
+  }
+  .ask__q:focus-visible {
+    outline-color: var(--yellow);
+    box-shadow: none;
+  }
+  .answer {
+    min-height: 5.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid color-mix(in srgb, var(--label) 25%, transparent);
+  }
+  .answer__empty {
+    color: #c9cac3;
+    font-size: 0.95rem;
+  }
+  :global(.answer__text) {
+    font-size: 1.05rem;
+    line-height: 1.45;
+    max-width: 60ch;
+  }
+  :global(.answer__src) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin: 0.6rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  :global(.answer__src li) {
+    padding: 0.2rem 0.45rem 0.1rem;
+    background: var(--label);
+    color: var(--ink);
+    border-radius: 2px;
+    font-family: var(--font-code);
+    font-size: 0.75rem;
+  }
+
+  @media (max-width: 64rem) {
+    .hero__grid {
+      grid-template-columns: 1fr;
+    }
+    .hero__lede {
+      max-width: 52ch;
+    }
+  }
+  @media (max-width: 36rem) {
+    /* Bring the rack into the first viewport: headline, rack, then lede and form. */
+    .hero__copy {
+      display: contents;
+    }
+    .hero__grid {
+      gap: var(--space-m);
+    }
+    h1 {
+      order: 1;
+      font-size: 2.55rem;
+    }
+    .rack {
+      order: 2;
+    }
+    .hero__lede {
+      order: 3;
+      font-size: var(--step-0);
+    }
+    .strip {
+      order: 4;
+      padding-right: 0;
+    }
+    .strip::before {
+      right: -100vmax;
+    }
+    .rack__caption {
+      display: none;
+    }
+    .dock {
+      min-height: 0;
+      padding: 1.9rem 0.6rem 0.6rem;
+    }
+    .bins {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+    .bin {
+      min-height: 0;
+      padding: 0.3rem 0.2rem 0.25rem;
+      border-bottom-width: 6px;
+    }
+    .bin__stock :global(.box) {
+      width: 0.8rem;
+      height: 0.6rem;
+    }
+    .tag {
+      padding: 0.2rem 0.25rem 0.15rem;
+    }
+    .tag__code,
+    .tag__count {
+      font-size: 0.62rem;
+    }
+    .tag__name {
+      font-size: 0.66rem;
+    }
+        .tag__name {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+    .strip__fields {
+      grid-template-columns: 1fr;
+    }
+    .slip {
+      font-size: 0.85rem;
+    }
+  }
+</style>
+
+<script>
+  type Q = { id: string; q: string; a: string; bins: string[]; src: string[] };
+
+  const rack = document.querySelector<HTMLElement>('[data-rack]');
+  if (rack) {
+    const dock = rack.querySelector<HTMLElement>('[data-dock]')!;
+    const answer = rack.querySelector<HTMLElement>('[data-answer]')!;
+    const json = rack.querySelector<HTMLScriptElement>('script[data-answers]')!;
+    const data: Q[] = JSON.parse(json.textContent || '[]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const binOf = (code: string) => rack.querySelector<HTMLElement>(`.bin[data-code="${code}"]`);
+
+    const shelve = (slip: HTMLElement) => {
+      const bin = binOf(slip.dataset.to || '');
+      slip.remove();
+      if (!bin) return;
+      const box = document.createElement('span');
+      box.className = 'box is-new';
+      bin.querySelector('.bin__stock')?.appendChild(box);
+      const count = bin.querySelector<HTMLElement>('[data-count]');
+      if (count) count.textContent = String(Number(count.textContent) + 1);
+      bin.classList.add('is-put');
+      window.setTimeout(() => bin.classList.remove('is-put'), 700);
+    };
+
+    // Put-away: each slip travels to its bin's label, then stops firmly.
+    const putAway = async () => {
+      const slips = Array.from(dock.querySelectorAll<HTMLElement>('.slip'));
+      if (reduce) {
+        slips.forEach(shelve);
+        rack.classList.add('is-clear');
+        return;
+      }
+      for (const slip of slips) {
+        const bin = binOf(slip.dataset.to || '');
+        if (!bin) continue;
+        const from = slip.getBoundingClientRect();
+        const to = bin.querySelector('.bin__stock')!.getBoundingClientRect();
+        const dx = to.left + to.width / 2 - (from.left + from.width / 2);
+        const dy = to.top + to.height / 2 - (from.top + from.height / 2);
+        slip.style.position = 'relative';
+        slip.style.zIndex = '5';
+        const anim = slip.animate(
+          [
+            { transform: `rotate(var(--tilt))` },
+            { transform: `translate(0, -6px) rotate(0deg)`, offset: 0.15 },
+            { transform: `translate(${dx}px, ${dy}px) rotate(0deg) scale(0.35)`, opacity: 0.2 },
+          ],
+          { duration: 620, easing: 'cubic-bezier(0.45, 0, 0.15, 1)', fill: 'forwards' },
+        );
+        await anim.finished;
+        shelve(slip);
+        await new Promise((r) => setTimeout(r, 110));
+      }
+      rack.classList.add('is-clear');
+    };
+
+    let started = false;
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (started || !entries.some((e) => e.isIntersecting)) return;
+        started = true;
+        io.disconnect();
+        window.setTimeout(putAway, reduce ? 0 : 900);
+      },
+      { threshold: 0.45 },
+    );
+    io.observe(rack);
+
+    // Pick: light the source bins, dim the rest, show the answer with its labels.
+    rack.querySelectorAll<HTMLButtonElement>('.ask__q').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const q = data.find((d) => d.id === btn.dataset.q);
+        if (!q) return;
+        if (dock.children.length) {
+          dock.querySelectorAll<HTMLElement>('.slip').forEach((s) => {
+            s.getAnimations().forEach((a) => a.cancel());
+            shelve(s);
+          });
+          rack.classList.add('is-clear');
+        }
+        rack.querySelectorAll('.ask__q').forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        rack.querySelectorAll<HTMLElement>('.bin').forEach((bin) => {
+          const hit = q.bins.includes(bin.dataset.code || '');
+          bin.classList.toggle('is-picked', hit);
+          bin.classList.toggle('is-dim', !hit);
+        });
+        answer.replaceChildren();
+        const p = document.createElement('p');
+        p.className = 'answer__text';
+        p.textContent = q.a;
+        const ul = document.createElement('ul');
+        ul.className = 'answer__src';
+        ul.setAttribute('aria-label', 'Sources');
+        q.src.forEach((s) => {
+          const li = document.createElement('li');
+          li.textContent = s;
+          ul.appendChild(li);
+        });
+        answer.append(p, ul);
+        if (!reduce) {
+          answer.animate(
+            [{ opacity: 0, transform: 'translateY(6px)' }, { opacity: 1, transform: 'none' }],
+            { duration: 280, easing: 'cubic-bezier(0.16, 1, 0.3, 1)' },
+          );
+        }
+      });
+    });
+  }
+</script>

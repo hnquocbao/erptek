@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://erptek.net/sitemap-index.xml

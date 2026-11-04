@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Aisles from '../components/Aisles.astro';
+import Principle from '../components/Principle.astro';
+import Method from '../components/Method.astro';
+import Readiness from '../components/Readiness.astro';
+import Faq from '../components/Faq.astro';
+import BookCall from '../components/BookCall.astro';
+import Footer from '../components/Footer.astro';
+---
+<Base>
+  <Header />
+  <main id="main">
+    <Hero />
+    <Aisles />
+    <Principle />
+    <Method />
+    <Readiness />
+    <Faq />
+    <BookCall />
+  </main>
+  <Footer />
+</Base>
+<script>
+  import { initBookingForms } from '../scripts/booking';
+  initBookingForms();
+</script>

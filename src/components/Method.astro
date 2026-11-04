@@ -1,0 +1,115 @@
+---
+const steps = [
+  { name: 'Receiving', does: 'Readiness call and assessment', text: 'We look at your systems, your data and the work that eats the most hours, then agree where to start.' },
+  { name: 'Put-away', does: 'Prepare and structure', text: 'Data cleaned, owners named, procedures written down, and knowledge shelved in the second brain.' },
+  { name: 'Pick', does: 'Deploy assistants', text: 'One team, one job first. We check it really saves time before it reaches anyone else.' },
+  { name: 'Cycle count', does: 'Keep it current', text: 'Regular reviews so the shelves stay labeled as your products, prices and people change.' },
+];
+---
+<section class="method" id="method" aria-labelledby="method-title">
+  <div class="wrap">
+    <h2 id="method-title">How a project runs</h2>
+    <p class="method__lede">The same four moves a good warehouse makes every day, applied to what your company knows.</p>
+    <ol class="lane">
+      {steps.map((s, i) => (
+        <li class="stop">
+          <span class="stop__n" aria-hidden="true">{i + 1}</span>
+          <h3>{s.name}</h3>
+          <p class="stop__does">{s.does}</p>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+<style>
+  .method {
+    padding-block: var(--space-xl);
+    background: var(--ink);
+    color: var(--label);
+  }
+  h2 {
+    font-size: var(--step-3);
+    text-transform: uppercase;
+  }
+  .method__lede {
+    margin-top: var(--space-s);
+    color: #c9cac3;
+    max-width: 50ch;
+  }
+  /* A yellow floor-tape lane with four marked stops. */
+  .lane {
+    --tape: 14px;
+    list-style: none;
+    margin: var(--space-l) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-m);
+    position: relative;
+  }
+  .lane::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(1.6rem - var(--tape) / 2);
+    height: var(--tape);
+    background: var(--yellow);
+  }
+  .stop {
+    position: relative;
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+  }
+  .stop__n {
+    display: grid;
+    place-items: center;
+    width: 3.6rem;
+    height: 3.2rem;
+    margin-bottom: var(--space-xs);
+    background: var(--yellow);
+    border: 3px solid var(--ink);
+    outline: 2px solid var(--yellow);
+    border-radius: 2px;
+    font-family: var(--font-stencil);
+    font-weight: 800;
+    font-size: 1.9rem;
+    line-height: 1;
+    padding-top: 0.15rem;
+    color: var(--yellow-ink);
+  }
+  .stop h3 {
+    font-size: var(--step-2);
+    text-transform: uppercase;
+    color: var(--yellow);
+  }
+  .stop__does {
+    font-weight: 700;
+  }
+  .stop p:last-child {
+    color: #c9cac3;
+    max-width: 34ch;
+  }
+  @media (max-width: 56rem) {
+    .lane {
+      grid-template-columns: 1fr;
+      gap: var(--space-l);
+      padding-left: 4.5rem;
+    }
+    .lane::before {
+      top: 0;
+      bottom: 0;
+      left: calc(1.6rem - var(--tape) / 2);
+      right: auto;
+      width: var(--tape);
+      height: auto;
+    }
+    .stop__n {
+      position: absolute;
+      left: -4.5rem;
+      top: 0;
+    }
+  }
+</style>

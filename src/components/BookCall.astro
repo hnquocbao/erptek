@@ -1,0 +1,145 @@
+---
+const contact = import.meta.env.PUBLIC_CONTACT_EMAIL || 'hello@erptek.net';
+---
+<section class="book" id="book" aria-labelledby="book-title">
+  <div class="tape" aria-hidden="true"></div>
+  <div class="wrap book__grid">
+    <div class="book__copy">
+      <h2 id="book-title">Book a free readiness call</h2>
+      <p class="book__lede">One conversation about how your company works today. No slides, no tool demo.</p>
+      <ul class="book__list">
+        <li>We ask about your systems, your data and the tasks that eat the most time.</li>
+        <li>You get an honest view of where AI can help first, and what has to be fixed before it can.</li>
+        <li>If we are not the right fit, we will say so.</li>
+      </ul>
+      <p class="book__mail">Prefer email? <a href={`mailto:${contact}`}>{contact}</a></p>
+    </div>
+
+    <form class="book__form" data-booking="close" novalidate>
+      <div class="field">
+        <label for="book-name">Your name</label>
+        <input class="input" id="book-name" name="name" autocomplete="name" required />
+      </div>
+      <div class="field">
+        <label for="book-email">Work email</label>
+        <input class="input" id="book-email" name="email" type="email" autocomplete="email" required placeholder="you@company.com" />
+      </div>
+      <div class="book__row">
+        <div class="field">
+          <label for="book-company">Company</label>
+          <input class="input" id="book-company" name="company" autocomplete="organization" required />
+        </div>
+        <div class="field">
+          <label for="book-size">Company size</label>
+          <select class="input" id="book-size" name="size" required>
+            <option value="">Choose</option>
+            <option>1–20 people</option>
+            <option>21–100 people</option>
+            <option>101–500 people</option>
+            <option>500+ people</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="book-notes">What takes up the most time in your company? <span class="opt">(optional)</span></label>
+        <textarea class="input" id="book-notes" name="notes" rows="4"></textarea>
+      </div>
+      <input type="hidden" id="book-readiness" name="readiness" />
+      <button class="btn" type="submit">Request my call</button>
+      <p class="form-status" role="status" aria-live="polite"></p>
+    </form>
+  </div>
+</section>
+<style>
+  .book {
+    background: var(--yellow);
+    color: var(--yellow-ink);
+  }
+  .book__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: var(--space-xl);
+    padding-block: var(--space-xl);
+    align-items: start;
+  }
+  .book__copy {
+    display: grid;
+    gap: var(--space-m);
+  }
+  h2 {
+    font-size: var(--step-4);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 0.9;
+  }
+  .book__lede {
+    font-size: var(--step-1);
+    font-weight: 700;
+    max-width: 36ch;
+  }
+  .book__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    gap: 0.75rem;
+    max-width: 46ch;
+  }
+  .book__list li {
+    display: grid;
+    grid-template-columns: 1.4rem 1fr;
+    gap: 0.6rem;
+  }
+  .book__list li::before {
+    content: '';
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-top: 0.3rem;
+    background: var(--ink);
+    border-radius: 1px;
+  }
+  .book__mail {
+    color: var(--yellow-ink-soft);
+  }
+  .book__mail a {
+    color: var(--yellow-ink);
+    font-weight: 700;
+    text-decoration-color: var(--yellow-ink);
+  }
+  .book__form {
+    display: grid;
+    gap: var(--space-s);
+    padding: var(--space-m);
+    background: var(--label);
+    color: var(--ink);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    box-shadow: 0 2px 2px rgb(28 23 0 / 0.15), 0 18px 40px -16px rgb(28 23 0 / 0.45);
+  }
+  .book__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-s);
+  }
+  .opt {
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+  .book__form .btn {
+    justify-self: start;
+  }
+  @media (max-width: 56rem) {
+    .book__grid {
+      grid-template-columns: 1fr;
+      gap: var(--space-l);
+    }
+  }
+  @media (max-width: 30rem) {
+    .book__row {
+      grid-template-columns: 1fr;
+    }
+    .book__form .btn {
+      justify-self: stretch;
+    }
+  }
+</style>

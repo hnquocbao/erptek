@@ -1,0 +1,184 @@
+---
+const aisles = [
+  {
+    code: 'ADV',
+    title: 'Know where you stand',
+    service: 'Advisory',
+    text: 'We map how work really moves through your company: the people, the systems, and the spreadsheets nobody admits to. You get a plain-language picture of where AI will pay off now and where it will not yet.',
+    get: ['Current-state map', 'Opportunities ranked by effort', 'Step-by-step roadmap'],
+  },
+  {
+    code: 'PRP',
+    title: 'Get data and workflows ready',
+    service: 'AI readiness',
+    text: 'We clean, structure and connect the data AI will rely on, set naming and ownership rules, and write down the procedures that today live only in people’s heads.',
+    get: ['Data inventory with owners', 'Cleaned, connected sources', 'Documented workflows', 'Rules for using AI'],
+  },
+  {
+    code: 'KB',
+    title: 'One place your company remembers',
+    service: 'Second brain',
+    text: 'A company knowledge base built from your real documents, decisions and procedures, organized so anyone, and any assistant, finds the current answer and sees where it came from.',
+    get: ['Structured knowledge base', 'Answers linked to sources', 'A routine to keep it current'],
+  },
+  {
+    code: 'AGT',
+    title: 'An assistant for every role',
+    service: 'Agent assistants',
+    text: 'Assistants built around specific jobs: answering customers, preparing quotes, onboarding new staff, checking orders. They work from the second brain, inside the tools your team already uses.',
+    get: ['Role-specific assistants', 'Review steps and guardrails', 'Hands-on staff training'],
+  },
+];
+---
+<section class="aisles" id="services" aria-labelledby="services-title">
+  <div class="wrap">
+    <header class="aisles__head">
+      <h2 id="services-title">Four aisles. Start in the one that fits.</h2>
+      <p>Most companies start with advice and readiness. Some already have tidy data and go straight to a second brain. We will tell you which one you are.</p>
+    </header>
+
+    <ol class="aisles__list">
+      {aisles.map((a) => (
+        <li class="aisle">
+          <div class="aisle__sign" aria-hidden="true"><span>{a.code}</span></div>
+          <div class="aisle__body">
+            <h3><span class="visually-hidden">{a.service}: </span>{a.title}</h3>
+            <p class="aisle__service">{a.service}</p>
+            <p class="aisle__text">{a.text}</p>
+          </div>
+          <div class="aisle__shelf">
+            <p class="aisle__get">You get</p>
+            <ul>
+              {a.get.map((g) => <li>{g}</li>)}
+            </ul>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+<style>
+  .aisles {
+    padding-block: var(--space-xl);
+    background: var(--concrete-deep);
+    border-top: 2px solid var(--ink);
+  }
+  .aisles__head {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    gap: var(--space-l);
+    align-items: end;
+    margin-bottom: var(--space-l);
+  }
+  .aisles__head h2 {
+    font-size: var(--step-3);
+    text-transform: uppercase;
+  }
+  .aisles__head p {
+    max-width: 46ch;
+    color: var(--ink-soft);
+  }
+  .aisles__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 4px solid var(--ink);
+  }
+  .aisle {
+    display: grid;
+    grid-template-columns: 8.5rem minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: var(--space-l);
+    padding-block: var(--space-l) calc(var(--space-l) + 14px);
+    /* Yellow floor tape with ink edges between aisles. */
+    background:
+      linear-gradient(var(--yellow), var(--yellow)) bottom 3px left 0 / 100% 10px no-repeat,
+      linear-gradient(var(--ink), var(--ink)) bottom / 100% 16px no-repeat;
+  }
+  .aisle__sign {
+    align-self: start;
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    background: var(--yellow);
+    border: 3px solid var(--ink);
+    border-radius: var(--radius);
+    font-family: var(--font-stencil);
+    font-weight: 800;
+    font-size: 2.6rem;
+    letter-spacing: 0.04em;
+    color: var(--yellow-ink);
+  }
+  .aisle__body {
+    display: grid;
+    gap: 0.6rem;
+    align-content: start;
+  }
+  .aisle h3 {
+    font-size: var(--step-2);
+    text-transform: uppercase;
+    order: 1;
+  }
+  .aisle__service {
+    order: 2;
+    color: var(--ink-soft);
+    font-weight: 700;
+    font-size: var(--step--1);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .aisle__text {
+    order: 3;
+    max-width: 58ch;
+  }
+  .aisle__shelf {
+    align-self: start;
+  }
+  .aisle__get {
+    font-weight: 700;
+    font-size: var(--step--1);
+    margin-bottom: 0.5rem;
+  }
+  .aisle__shelf ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+  .aisle__shelf li {
+    padding: 0.45rem 0.7rem 0.35rem;
+    background: var(--label);
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    box-shadow: var(--shadow-label);
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  @media (max-width: 60rem) {
+    .aisles__head {
+      grid-template-columns: 1fr;
+      gap: var(--space-s);
+    }
+    .aisle {
+      grid-template-columns: 5rem minmax(0, 1fr);
+      gap: var(--space-m);
+    }
+    .aisle__sign {
+      font-size: 1.6rem;
+    }
+    .aisle__shelf {
+      grid-column: 2;
+    }
+  }
+  @media (max-width: 30rem) {
+    .aisle {
+      grid-template-columns: 1fr;
+    }
+    .aisle__sign {
+      width: 4.5rem;
+    }
+    .aisle__shelf {
+      grid-column: 1;
+    }
+  }
+</style>

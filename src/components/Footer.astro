@@ -1,0 +1,70 @@
+---
+import Wordmark from './Wordmark.astro';
+const contact = import.meta.env.PUBLIC_CONTACT_EMAIL || 'hello@erptek.net';
+const year = new Date().getFullYear();
+---
+<footer class="foot">
+  <div class="wrap foot__grid">
+    <div class="foot__brand">
+      <Wordmark size="lg" />
+      <p>AI readiness, company second brains and agent assistants for small and mid-sized companies.</p>
+    </div>
+    <nav aria-label="Footer">
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#method">Method</a></li>
+        <li><a href="#readiness">Readiness check</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li><a href="#book">Book a call</a></li>
+      </ul>
+    </nav>
+    <p class="foot__contact"><a href={`mailto:${contact}`}>{contact}</a><br />erptek.net</p>
+  </div>
+  <div class="wrap foot__legal">
+    <p>© {year} ERPTEK</p>
+  </div>
+</footer>
+<style>
+  .foot {
+    background: var(--ink);
+    color: var(--label);
+    padding-block: var(--space-l) var(--space-m);
+  }
+  .foot__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) auto auto;
+    gap: var(--space-l);
+    align-items: start;
+  }
+  .foot__brand {
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+  }
+  .foot__brand p {
+    max-width: 40ch;
+    color: #c9cac3;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.4rem;
+  }
+  a {
+    text-decoration-color: var(--yellow);
+  }
+  .foot__legal {
+    margin-top: var(--space-l);
+    padding-top: var(--space-s);
+    border-top: 1px solid #3a3c38;
+    color: #a9aba3;
+    font-size: var(--step--1);
+  }
+  @media (max-width: 44rem) {
+    .foot__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

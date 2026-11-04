@@ -1,0 +1,208 @@
+---
+const checks = [
+  'Our key procedures are written down where people can find them.',
+  'Customer, product and finance data live mainly in one system, not in scattered spreadsheets.',
+  'We know who owns each important set of data.',
+  'New staff can get answers without interrupting a senior colleague.',
+  'Most people follow the same file naming and folder rules.',
+  'We can export data from our main systems.',
+  'We have rules on what company data may go into AI tools.',
+  'We can name two or three tasks that eat hours every week.',
+];
+---
+<section class="ready" id="readiness" aria-labelledby="ready-title">
+  <div class="wrap ready__grid">
+    <div class="ready__intro">
+      <h2 id="ready-title">How ready is your warehouse?</h2>
+      <p>Eight statements. Tick the ones that are true today. Nothing is sent anywhere; this runs in your browser.</p>
+    </div>
+
+    <form class="checklist" data-readiness>
+      <fieldset>
+        <legend class="visually-hidden">Readiness statements</legend>
+        {checks.map((c, i) => (
+          <label class="check">
+            <input type="checkbox" name={`c${i}`} />
+            <span class="check__box" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><path d="M3 8.5l3.2 3L13 4.5" /></svg>
+            </span>
+            <span class="check__text">{c}</span>
+          </label>
+        ))}
+      </fieldset>
+    </form>
+
+    <aside class="result" aria-live="polite" data-result>
+      <p class="result__score"><span data-score>0</span><span class="result__of">/ 8</span></p>
+      <p class="result__zone" data-zone>Receiving dock</p>
+      <p class="result__advice" data-advice>Start with advice. We map where you stand and what to fix first, before any AI tool is chosen.</p>
+      <a class="btn btn--yellow" href="#book" data-ready-cta>Talk this through</a>
+    </aside>
+  </div>
+</section>
+<style>
+  .ready {
+    padding-block: var(--space-xl);
+  }
+  .ready__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr) minmax(16rem, 0.9fr);
+    gap: var(--space-l);
+    align-items: start;
+  }
+  .ready__intro {
+    display: grid;
+    gap: var(--space-s);
+  }
+  h2 {
+    font-size: var(--step-3);
+    text-transform: uppercase;
+  }
+  .ready__intro p {
+    color: var(--ink-soft);
+    max-width: 36ch;
+  }
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    display: grid;
+    gap: 0.5rem;
+  }
+  .check {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.85rem;
+    align-items: start;
+    padding: 0.8rem 0.9rem 0.7rem;
+    background: var(--label);
+    border: 1.5px solid var(--ink);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background-color 160ms var(--ease-out);
+  }
+  .check:hover {
+    background: #fff;
+  }
+  .check input {
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+  }
+  .check__box {
+    display: grid;
+    place-items: center;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid var(--ink);
+    border-radius: 2px;
+    background: var(--label);
+  }
+  .check__box svg {
+    width: 1rem;
+    fill: none;
+    stroke: var(--yellow-ink);
+    stroke-width: 2.4;
+    opacity: 0;
+    transform: scale(0.6);
+    transition: opacity 140ms var(--ease-out), transform 200ms var(--ease-out);
+  }
+  .check:has(input:checked) {
+    background: var(--yellow);
+  }
+  .check:has(input:checked) .check__box {
+    background: var(--label);
+  }
+  .check:has(input:checked) svg {
+    opacity: 1;
+    transform: none;
+  }
+  .check:has(input:focus-visible) {
+    outline: 3px solid var(--ink);
+    outline-offset: 3px;
+  }
+  .check__text {
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .result {
+    position: sticky;
+    top: 6rem;
+    display: grid;
+    gap: 0.75rem;
+    padding: var(--space-m);
+    background: var(--ink);
+    color: var(--label);
+    border-radius: var(--radius);
+  }
+  .result__score {
+    font-family: var(--font-stencil);
+    font-weight: 800;
+    font-size: 5.5rem;
+    line-height: 0.85;
+    color: var(--yellow);
+  }
+  .result__of {
+    font-size: 2rem;
+    margin-left: 0.3rem;
+    color: #c9cac3;
+  }
+  .result__zone {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--step-2);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+  .result__advice {
+    color: #d8d9d2;
+  }
+  @media (max-width: 68rem) {
+    .ready__grid {
+      grid-template-columns: minmax(0, 1.4fr) minmax(15rem, 1fr);
+    }
+    .ready__intro {
+      grid-column: 1 / -1;
+    }
+  }
+  @media (max-width: 44rem) {
+    .ready__grid {
+      grid-template-columns: 1fr;
+    }
+    .result {
+      position: static;
+    }
+  }
+</style>
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-readiness]');
+  const result = document.querySelector<HTMLElement>('[data-result]');
+  if (form && result) {
+    const score = result.querySelector<HTMLElement>('[data-score]')!;
+    const zone = result.querySelector<HTMLElement>('[data-zone]')!;
+    const advice = result.querySelector<HTMLElement>('[data-advice]')!;
+    const cta = result.querySelector<HTMLAnchorElement>('[data-ready-cta]')!;
+    const zones = [
+      { max: 3, zone: 'Receiving dock', advice: 'Start with advice. We map where you stand and what to fix first, before any AI tool is chosen.' },
+      { max: 6, zone: 'Half shelved', advice: 'You have a base to build on. Readiness work on data and workflows comes next, then a second brain.' },
+      { max: 8, zone: 'Ready to pick', advice: 'Your house is in order. A second brain and a first assistant for one team are a realistic next step.' },
+    ];
+    const update = () => {
+      const n = form.querySelectorAll('input:checked').length;
+      const z = zones.find((x) => n <= x.max)!;
+      score.textContent = String(n);
+      zone.textContent = z.zone;
+      advice.textContent = z.advice;
+      cta.dataset.score = `${n}/8 (${z.zone})`;
+    };
+    form.addEventListener('change', update);
+    cta.addEventListener('click', () => {
+      const field = document.querySelector<HTMLInputElement>('#book-readiness');
+      if (field) field.value = cta.dataset.score || '';
+    });
+    update();
+  }
+</script>

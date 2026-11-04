@@ -1,0 +1,91 @@
+---
+const faqs = [
+  { q: 'Do we need to replace our ERP or other systems?', a: 'No. We start from the systems you already run and connect to them. If something genuinely blocks you, we will say so and explain the options, but replacing software is never the starting point.' },
+  { q: 'What happens on the readiness call?', a: 'We ask how your company works today: your systems, where data lives, and which tasks take the most time. You leave with an honest view of where to start, even if the answer is that you are not ready yet.' },
+  { q: 'What about our data and confidentiality?', a: 'Before anything is connected we agree, in writing, which data may be used, where it is stored, and who can see it. Rules for using AI tools are part of the readiness work, not an afterthought.' },
+  { q: 'Which AI tools and models do you use?', a: 'We choose after the assessment, to fit your systems, budget and data rules. The second brain and assistants are designed so you are not locked into one vendor.' },
+  { q: 'We are a small company. Is this for us?', a: 'Yes. Small and mid-sized companies often benefit most, because a few people carry most of the knowledge. Getting it written down and findable pays off quickly.' },
+  { q: 'Will this replace our staff?', a: 'That is not the goal. Assistants take over searching, copying and first drafts so your people spend their time on customers, judgement and the work only they can do.' },
+];
+---
+<section class="faq" id="faq" aria-labelledby="faq-title">
+  <div class="wrap faq__grid">
+    <h2 id="faq-title">Questions owners ask us</h2>
+    <div class="faq__list">
+      {faqs.map((f) => (
+        <details>
+          <summary>
+            <span>{f.q}</span>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" /></svg>
+          </summary>
+          <p>{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+<style>
+  .faq {
+    padding-block: var(--space-xl);
+    background: var(--concrete-deep);
+    border-top: 2px solid var(--ink);
+  }
+  .faq__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--space-l);
+    align-items: start;
+  }
+  h2 {
+    font-size: var(--step-3);
+    text-transform: uppercase;
+  }
+  details {
+    border-bottom: 2px solid var(--ink);
+  }
+  details:first-child {
+    border-top: 2px solid var(--ink);
+  }
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-s);
+    padding: 1.1rem 0 1rem;
+    font-weight: 700;
+    font-size: var(--step-1);
+    line-height: 1.3;
+    cursor: pointer;
+    list-style: none;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  summary:hover span {
+    text-decoration: underline;
+    text-decoration-color: var(--yellow-deep);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+  summary svg {
+    flex: none;
+    width: 1.25rem;
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2;
+    transition: transform 200ms var(--ease-out);
+  }
+  details[open] summary svg {
+    transform: rotate(180deg);
+  }
+  details p {
+    padding-bottom: 1.25rem;
+    max-width: 65ch;
+    color: var(--ink-soft);
+  }
+  @media (max-width: 52rem) {
+    .faq__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

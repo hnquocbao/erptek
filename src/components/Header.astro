@@ -1,0 +1,76 @@
+---
+import Wordmark from './Wordmark.astro';
+const links = [
+  { href: '#services', label: 'Services' },
+  { href: '#method', label: 'Method' },
+  { href: '#readiness', label: 'Readiness check' },
+  { href: '#faq', label: 'FAQ' },
+];
+---
+<header class="top">
+  <div class="wrap top__inner">
+    <a href="/" class="top__home" aria-label="ERPTEK home"><Wordmark /></a>
+    <nav aria-label="Main">
+      <ul class="top__links">
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
+      </ul>
+    </nav>
+    <a class="btn btn--yellow top__cta" href="#book">Book a call</a>
+  </div>
+  <div class="top__beam" aria-hidden="true"></div>
+</header>
+<style>
+  .top {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--concrete) 92%, transparent);
+    backdrop-filter: blur(6px);
+  }
+  .top__inner {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    min-height: 4.25rem;
+  }
+  .top__home {
+    text-decoration: none;
+    flex: none;
+  }
+  nav {
+    margin-left: auto;
+  }
+  .top__links {
+    display: flex;
+    gap: 0.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .top__links a {
+    display: block;
+    padding: 0.5rem 0.75rem 0.4rem;
+    border-radius: var(--radius);
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-decoration: none;
+  }
+  .top__links a:hover {
+    background: var(--concrete-deep);
+  }
+  .top__cta {
+    min-height: 2.6rem;
+    padding-block: 0.5rem 0.4rem;
+    font-size: 1.05rem;
+  }
+  /* Yellow floor tape the whole site starts from. */
+  .top__beam {
+    height: 8px;
+    background: var(--yellow);
+    border-block: 2px solid var(--ink);
+  }
+  @media (max-width: 52rem) {
+    nav { display: none; }
+    .top__cta { margin-left: auto; }
+  }
+</style>

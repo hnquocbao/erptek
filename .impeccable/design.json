@@ -1,0 +1,528 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-04T01:14:23+00:00",
+  "title": "Design System: ERPTEK",
+  "extensions": {
+    "colorMeta": {
+      "concrete": {
+        "role": "neutral",
+        "displayName": "Poured Concrete",
+        "canonical": "#d9dcdc",
+        "oklch": "oklch(89.2% 0.003 197.1)",
+        "tonalRamp": [
+          "#0a0c0c",
+          "#232626",
+          "#404242",
+          "#5f6262",
+          "#808383",
+          "#a3a6a6",
+          "#c7caca",
+          "#ecefef"
+        ]
+      },
+      "concrete-deep": {
+        "role": "neutral",
+        "displayName": "Sealed Concrete",
+        "canonical": "#c8cccc",
+        "oklch": "oklch(84.2% 0.004 197.1)",
+        "tonalRamp": [
+          "#090c0c",
+          "#232626",
+          "#3f4343",
+          "#5e6262",
+          "#7f8383",
+          "#a2a6a6",
+          "#c6caca",
+          "#ebefef"
+        ]
+      },
+      "concrete-shade": {
+        "role": "neutral",
+        "displayName": "Concrete Shadow",
+        "canonical": "#b6bbbb",
+        "oklch": "oklch(78.8% 0.006 197.0)",
+        "tonalRamp": [
+          "#090c0c",
+          "#222626",
+          "#3f4343",
+          "#5e6262",
+          "#7f8383",
+          "#a1a6a6",
+          "#c5caca",
+          "#eaf0f0"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#141414",
+        "oklch": "oklch(19.1% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#252525",
+          "#424242",
+          "#616161",
+          "#828282",
+          "#a5a5a5",
+          "#c9c9c9",
+          "#eeeeee"
+        ]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#383a35",
+        "oklch": "oklch(34.5% 0.009 124.7)",
+        "tonalRamp": [
+          "#0a0c08",
+          "#242621",
+          "#41433e",
+          "#60625d",
+          "#81837e",
+          "#a4a6a0",
+          "#c8cac4",
+          "#edf0e9"
+        ]
+      },
+      "label": {
+        "role": "neutral",
+        "displayName": "Thermal Label",
+        "canonical": "#f8f8f3",
+        "oklch": "oklch(97.8% 0.007 106.5)",
+        "tonalRamp": [
+          "#0b0b08",
+          "#252522",
+          "#42423e",
+          "#61615d",
+          "#83837e",
+          "#a5a5a1",
+          "#c9c9c5",
+          "#efefea"
+        ]
+      },
+      "label-mute": {
+        "role": "neutral",
+        "displayName": "Label Grey",
+        "canonical": "#c9cac3",
+        "oklch": "oklch(83.6% 0.010 113.2)",
+        "tonalRamp": [
+          "#0b0c07",
+          "#252620",
+          "#42433d",
+          "#61625c",
+          "#82837d",
+          "#a5a69f",
+          "#c9cac3",
+          "#eeefe8"
+        ]
+      },
+      "yellow": {
+        "role": "primary",
+        "displayName": "Safety Yellow",
+        "canonical": "#f2c200",
+        "oklch": "oklch(83.3% 0.170 90.6)",
+        "tonalRamp": [
+          "#120a00",
+          "#332200",
+          "#583e00",
+          "#7f5b00",
+          "#a87b00",
+          "#c5a129",
+          "#e3c778",
+          "#ffedb8"
+        ]
+      },
+      "yellow-deep": {
+        "role": "primary",
+        "displayName": "Worn Yellow",
+        "canonical": "#d9ad00",
+        "oklch": "oklch(76.6% 0.156 90.3)",
+        "tonalRamp": [
+          "#110a00",
+          "#322300",
+          "#563e00",
+          "#7d5c00",
+          "#a67c00",
+          "#c3a13b",
+          "#e1c780",
+          "#ffedbd"
+        ]
+      },
+      "yellow-ink": {
+        "role": "primary",
+        "displayName": "Tape Ink",
+        "canonical": "#1c1700",
+        "oklch": "oklch(20.4% 0.042 98.7)",
+        "tonalRamp": [
+          "#0c0b07",
+          "#27251b",
+          "#454232",
+          "#66624b",
+          "#888366",
+          "#aaa68e",
+          "#cdcab7",
+          "#f1efe2"
+        ]
+      },
+      "yellow-ink-soft": {
+        "role": "primary",
+        "displayName": "Faded Tape Ink",
+        "canonical": "#4a3e00",
+        "oklch": "oklch(36.5% 0.075 96.7)",
+        "tonalRamp": [
+          "#0d0b04",
+          "#2a2512",
+          "#494224",
+          "#6b6137",
+          "#8f834d",
+          "#b0a67a",
+          "#d1caa8",
+          "#f4efd8"
+        ]
+      },
+      "upright": {
+        "role": "secondary",
+        "displayName": "Rack Upright Blue",
+        "canonical": "#2f5c86",
+        "oklch": "oklch(46.3% 0.085 248.7)",
+        "tonalRamp": [
+          "#050c14",
+          "#162736",
+          "#2a445d",
+          "#416487",
+          "#5987b3",
+          "#84a9ce",
+          "#b0cdea",
+          "#ddf1ff"
+        ]
+      },
+      "beam": {
+        "role": "secondary",
+        "displayName": "Beam Orange",
+        "canonical": "#d9531c",
+        "oklch": "oklch(61.4% 0.180 39.7)",
+        "tonalRamp": [
+          "#1a0400",
+          "#431302",
+          "#712606",
+          "#a33a0e",
+          "#d6521c",
+          "#ef835d",
+          "#ffb193",
+          "#ffdec9"
+        ]
+      },
+      "carton": {
+        "role": "secondary",
+        "displayName": "Carton",
+        "canonical": "#b68d5c",
+        "oklch": "oklch(67.1% 0.082 70.6)",
+        "tonalRamp": [
+          "#110a03",
+          "#302210",
+          "#543d22",
+          "#7a5a34",
+          "#a17a4a",
+          "#c09e78",
+          "#dfc4a6",
+          "#feebd6"
+        ]
+      },
+      "carton-edge": {
+        "role": "secondary",
+        "displayName": "Carton Edge",
+        "canonical": "#7d5d37",
+        "oklch": "oklch(50.3% 0.068 70.0)",
+        "tonalRamp": [
+          "#100a04",
+          "#2e2315",
+          "#513e28",
+          "#765c3e",
+          "#9d7b55",
+          "#bca080",
+          "#dbc5ad",
+          "#fbecdb"
+        ]
+      },
+      "ok": {
+        "role": "feedback",
+        "displayName": "Pass Green",
+        "canonical": "#1f6b3a",
+        "oklch": "oklch(46.9% 0.108 151.4)",
+        "tonalRamp": [
+          "#040e06",
+          "#112c19",
+          "#234c2f",
+          "#376f47",
+          "#4d9461",
+          "#7cb58a",
+          "#abd6b4",
+          "#daf8e0"
+        ]
+      },
+      "error": {
+        "role": "feedback",
+        "displayName": "Fault Red",
+        "canonical": "#a3221a",
+        "oklch": "oklch(46.8% 0.166 28.9)",
+        "tonalRamp": [
+          "#190403",
+          "#42140f",
+          "#6f271f",
+          "#a03b31",
+          "#d25345",
+          "#ec8374",
+          "#ffb0a3",
+          "#ffded4"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Hero and closing headlines, uppercase."
+      },
+      "display-stencil": {
+        "displayName": "Display Stencil",
+        "purpose": "One statement headline per page."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings, uppercase."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Aisle titles, method stops, form titles."
+      },
+      "sign": {
+        "displayName": "Sign",
+        "purpose": "Stencil signage: aisle codes, stop numbers, scores, wordmark, dock sign."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Push-plate labels, uppercase."
+      },
+      "body-lead": {
+        "displayName": "Body Lead",
+        "purpose": "Ledes, 34-52ch."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running text with tabular numerals, 44-65ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Field labels, captions, status lines."
+      },
+      "data": {
+        "displayName": "Data",
+        "purpose": "Location codes, counts, file names, source citations only."
+      }
+    },
+    "shadows": [
+      {
+        "name": "label-lift",
+        "value": "0 1px 1px rgb(20 20 20 / 0.12), 0 3px 8px -2px rgb(20 20 20 / 0.18)",
+        "purpose": "Thermal labels, file slips, shelf items, wordmark plate."
+      },
+      {
+        "name": "card-on-tape",
+        "value": "0 2px 2px rgb(28 23 0 / 0.15), 0 18px 40px -16px rgb(28 23 0 / 0.45)",
+        "purpose": "Booking form card on the yellow closing section."
+      },
+      {
+        "name": "focus-halo",
+        "value": "outline: 3px solid #141414; outline-offset: 3px; box-shadow: 0 0 0 6px #f2c200",
+        "purpose": "Every focus-visible state."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "State transitions: 160ms plates and chips, 300ms bins and tags, 280ms answer reveal."
+      },
+      {
+        "name": "conveyor",
+        "value": "620ms cubic-bezier(0.45, 0, 0.15, 1)",
+        "purpose": "Put-away travel of a slip to its bin: linear travel, firm stop, 110ms gap between items."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "transitions and animations to 0.01ms; slips shelve instantly",
+        "purpose": "prefers-reduced-motion path."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "phone",
+        "value": "36rem"
+      },
+      {
+        "name": "stack-narrow",
+        "value": "44rem"
+      },
+      {
+        "name": "nav-collapse",
+        "value": "52rem"
+      },
+      {
+        "name": "stack-method",
+        "value": "56rem"
+      },
+      {
+        "name": "stack-aisles",
+        "value": "60rem"
+      },
+      {
+        "name": "stack-hero",
+        "value": "64rem"
+      }
+    ],
+    "ground": {
+      "name": "concrete-grain",
+      "value": "inline SVG feTurbulence fractal noise, baseFrequency 0.9, 2 octaves, 7% alpha, 240px tile, over concrete",
+      "purpose": "Poured-concrete page ground."
+    }
+  },
+  "components": [
+    {
+      "name": "Yellow Push-Plate",
+      "kind": "button",
+      "refersTo": "button-yellow",
+      "description": "Primary action on concrete or ink: header CTA, readiness CTA.",
+      "html": "<button class=\"ds-btn ds-btn--yellow\">Book a call</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.6em; min-height: 3rem; padding: 0.75rem 1.35rem 0.6rem; border: 2px solid var(--ink, #141414); border-radius: 3px; background: var(--ink, #141414); color: var(--label, #f8f8f3); font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-size: 1.2rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1), transform 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn--yellow { background: var(--yellow, #f2c200); color: var(--yellow-ink, #1c1700); } .ds-btn--yellow:hover { background: var(--yellow-deep, #d9ad00); } .ds-btn:active { transform: translateY(1px); } .ds-btn:focus-visible { outline: 3px solid var(--ink, #141414); outline-offset: 3px; box-shadow: 0 0 0 6px var(--yellow, #f2c200); }"
+    },
+    {
+      "name": "Ink Push-Plate",
+      "kind": "button",
+      "refersTo": "button-ink",
+      "description": "Submit plate on yellow floor tape and on the booking card.",
+      "html": "<div style=\"background:#f2c200;padding:16px;border-block:4px solid #141414\"><button class=\"ds-btn-ink\">Book the call</button></div>",
+      "css": ".ds-btn-ink { display: inline-flex; align-items: center; min-height: 3rem; padding: 0.75rem 1.35rem 0.6rem; border: 2px solid var(--ink, #141414); border-radius: 3px; background: var(--ink, #141414); color: var(--label, #f8f8f3); font-family: 'Big Shoulders Display', 'Arial Narrow', sans-serif; font-size: 1.2rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; cursor: pointer; transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1), transform 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-ink:hover { background: var(--ink-soft, #383a35); } .ds-btn-ink:active { transform: translateY(1px); } .ds-btn-ink:focus-visible { outline: 3px solid var(--ink, #141414); outline-offset: 3px; box-shadow: 0 0 0 6px var(--yellow, #f2c200); }"
+    },
+    {
+      "name": "Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Label-stock input with ink border; shared by every form.",
+      "html": "<label class=\"ds-field\"><span>Work email</span><input class=\"ds-input\" type=\"email\" placeholder=\"you@company.com\"></label>",
+      "css": ".ds-field { display: grid; gap: 0.35rem; font-family: 'Overpass', system-ui, sans-serif; color: var(--ink, #141414); } .ds-field span { font-weight: 700; font-size: 0.875rem; } .ds-input { min-height: 3rem; padding: 0.7rem 0.85rem 0.55rem; border: 2px solid var(--ink, #141414); border-radius: 3px; background: var(--label, #f8f8f3); color: var(--ink, #141414); font: inherit; font-size: 1.0625rem; } .ds-input::placeholder { color: #5d5f58; } .ds-input:focus-visible { outline: 3px solid var(--ink, #141414); outline-offset: 0; box-shadow: 0 0 0 6px var(--yellow, #f2c200); }"
+    },
+    {
+      "name": "Header Nav",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Sticky concrete header with wordmark, bold links, yellow CTA and the yellow beam.",
+      "html": "<header class=\"ds-top\"><div class=\"ds-top__in\"><span class=\"ds-mark\">ERPTEK</span><nav><a href=\"#\">Services</a><a href=\"#\">Method</a><a href=\"#\">FAQ</a></nav></div><div class=\"ds-top__beam\"></div></header>",
+      "css": ".ds-top { background: var(--concrete, #d9dcdc); font-family: 'Overpass', system-ui, sans-serif; } .ds-top__in { display: flex; align-items: center; gap: 1.5rem; min-height: 4.25rem; padding-inline: 1rem; } .ds-top nav { margin-left: auto; display: flex; gap: 0.25rem; } .ds-top nav a { padding: 0.5rem 0.75rem 0.4rem; border-radius: 3px; font-weight: 700; font-size: 0.95rem; color: var(--ink, #141414); text-decoration: none; } .ds-top nav a:hover { background: var(--concrete-deep, #c8cccc); } .ds-top nav a:focus-visible { outline: 3px solid var(--ink, #141414); outline-offset: 3px; box-shadow: 0 0 0 6px var(--yellow, #f2c200); } .ds-mark { padding: 0.35rem 0.6rem 0.25rem; background: var(--label, #f8f8f3); border: 2px solid var(--ink, #141414); border-radius: 3px; box-shadow: 0 1px 1px rgb(20 20 20 / 0.12), 0 3px 8px -2px rgb(20 20 20 / 0.18); font-family: 'Big Shoulders Stencil Display', 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: 1.45rem; letter-spacing: 0.06em; } .ds-top__beam { height: 8px; background: var(--yellow, #f2c200); border-block: 2px solid var(--ink, #141414); }"
+    },
+    {
+      "name": "Ask Chip",
+      "kind": "chip",
+      "refersTo": "ask-chip",
+      "description": "Question chips on the ink Ask panel; pressed state fills yellow.",
+      "html": "<div class=\"ds-ask\"><button class=\"ds-chip\" aria-pressed=\"true\">Can distributors return unopened stock?</button><button class=\"ds-chip\" aria-pressed=\"false\">Who approves a purchase over $5,000?</button></div>",
+      "css": ".ds-ask { display: flex; flex-wrap: wrap; gap: 0.5rem; padding: 1rem; background: var(--ink, #141414); border-radius: 3px; } .ds-chip { padding: 0.5rem 0.75rem 0.4rem; border: 1.5px solid var(--label, #f8f8f3); border-radius: 3px; background: transparent; color: var(--label, #f8f8f3); font-family: 'Overpass', system-ui, sans-serif; font-size: 0.95rem; font-weight: 700; text-align: left; cursor: pointer; transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1), color 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-chip:hover { background: color-mix(in srgb, var(--label, #f8f8f3) 14%, transparent); } .ds-chip[aria-pressed='true'] { background: var(--yellow, #f2c200); border-color: var(--yellow, #f2c200); color: var(--yellow-ink, #1c1700); } .ds-chip:focus-visible { outline: 3px solid var(--yellow, #f2c200); outline-offset: 3px; }"
+    },
+    {
+      "name": "Thermal Label",
+      "kind": "custom",
+      "refersTo": "thermal-tag",
+      "description": "Bin label: mono location code, name, mono count and barcode; inverts to ink when picked.",
+      "html": "<div class=\"ds-tags\"><span class=\"ds-tag\"><span class=\"ds-tag__code\">LEG-02</span><span class=\"ds-tag__n\">1</span><span class=\"ds-tag__name\">Contracts</span><svg class=\"ds-tag__bars\" viewBox=\"0 0 40 10\" preserveAspectRatio=\"none\"><rect x=\"0\" width=\"2\" height=\"10\"/><rect x=\"4\" width=\"1\" height=\"10\"/><rect x=\"7\" width=\"2\" height=\"10\"/><rect x=\"11\" width=\"1\" height=\"10\"/><rect x=\"14\" width=\"1\" height=\"10\"/><rect x=\"17\" width=\"2\" height=\"10\"/><rect x=\"21\" width=\"1\" height=\"10\"/><rect x=\"24\" width=\"2\" height=\"10\"/><rect x=\"28\" width=\"1\" height=\"10\"/><rect x=\"31\" width=\"2\" height=\"10\"/><rect x=\"35\" width=\"1\" height=\"10\"/><rect x=\"38\" width=\"2\" height=\"10\"/></svg></span><span class=\"ds-tag is-picked\"><span class=\"ds-tag__code\">SAL-01</span><span class=\"ds-tag__n\">2</span><span class=\"ds-tag__name\">Price lists</span><svg class=\"ds-tag__bars\" viewBox=\"0 0 40 10\" preserveAspectRatio=\"none\"><rect x=\"0\" width=\"1\" height=\"10\"/><rect x=\"3\" width=\"2\" height=\"10\"/><rect x=\"7\" width=\"1\" height=\"10\"/><rect x=\"10\" width=\"2\" height=\"10\"/><rect x=\"14\" width=\"2\" height=\"10\"/><rect x=\"18\" width=\"1\" height=\"10\"/><rect x=\"21\" width=\"1\" height=\"10\"/><rect x=\"24\" width=\"2\" height=\"10\"/><rect x=\"28\" width=\"1\" height=\"10\"/><rect x=\"31\" width=\"1\" height=\"10\"/><rect x=\"34\" width=\"2\" height=\"10\"/><rect x=\"38\" width=\"2\" height=\"10\"/></svg></span></div>",
+      "css": ".ds-tags { display: flex; gap: 0.75rem; padding: 1rem; background: var(--concrete, #d9dcdc); } .ds-tag { display: grid; grid-template-columns: 1fr auto; gap: 0 0.3rem; width: 9rem; padding: 0.3rem 0.4rem 0.25rem; background: var(--label, #f8f8f3); color: var(--ink, #141414); border: 1.5px solid var(--ink, #141414); border-radius: 2px; line-height: 1.15; font-family: 'Overpass', system-ui, sans-serif; transition: background-color 300ms cubic-bezier(0.16, 1, 0.3, 1), transform 300ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-tag__code, .ds-tag__n { font-family: 'Overpass Mono', ui-monospace, monospace; font-weight: 500; font-size: 0.78rem; letter-spacing: 0.02em; } .ds-tag__n { justify-self: end; } .ds-tag__name { grid-column: 1 / -1; font-size: 0.8rem; font-weight: 700; } .ds-tag__bars { grid-column: 1 / -1; width: 100%; height: 0.55rem; margin-top: 0.25rem; fill: currentColor; } .ds-tag.is-picked, .ds-tag:hover { background: var(--ink, #141414); color: var(--label, #f8f8f3); transform: translateY(-3px); }"
+    },
+    {
+      "name": "Checklist Row",
+      "kind": "custom",
+      "refersTo": "check-row",
+      "description": "Readiness checklist row; checked rows fill yellow with a yellow-ink tick.",
+      "html": "<label class=\"ds-check\"><input type=\"checkbox\" checked><span class=\"ds-check__box\"><svg viewBox=\"0 0 16 16\"><path d=\"M3 8.5l3.2 3L13 4.5\"/></svg></span><span>Our key documents live in one known place.</span></label>",
+      "css": ".ds-check { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 0.85rem; align-items: start; padding: 0.8rem 0.9rem 0.7rem; background: var(--label, #f8f8f3); border: 1.5px solid var(--ink, #141414); border-radius: 2px; font-family: 'Overpass', system-ui, sans-serif; font-weight: 700; line-height: 1.35; color: var(--ink, #141414); cursor: pointer; transition: background-color 160ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-check:hover { background: #fff; } .ds-check input { position: absolute; opacity: 0; width: 1px; height: 1px; } .ds-check__box { display: grid; place-items: center; width: 1.5rem; height: 1.5rem; border: 2px solid var(--ink, #141414); border-radius: 2px; background: var(--label, #f8f8f3); } .ds-check__box svg { width: 1rem; fill: none; stroke: var(--yellow-ink, #1c1700); stroke-width: 2.4; opacity: 0; transform: scale(0.6); transition: opacity 140ms, transform 200ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-check:has(input:checked) { background: var(--yellow, #f2c200); } .ds-check:has(input:checked) svg { opacity: 1; transform: none; } .ds-check:has(input:focus-visible) { outline: 3px solid var(--ink, #141414); outline-offset: 3px; }"
+    },
+    {
+      "name": "Aisle Sign",
+      "kind": "custom",
+      "refersTo": "aisle-sign",
+      "description": "Square yellow stencil sign that heads each service aisle, over yellow floor tape with ink edges.",
+      "html": "<div class=\"ds-aisle\"><div class=\"ds-sign\">KB</div><div class=\"ds-tape\"></div></div>",
+      "css": ".ds-aisle { display: grid; gap: 1rem; padding: 1rem; background: var(--concrete-deep, #c8cccc); } .ds-sign { display: grid; place-items: center; width: 8.5rem; aspect-ratio: 1; background: var(--yellow, #f2c200); border: 3px solid var(--ink, #141414); border-radius: 3px; font-family: 'Big Shoulders Stencil Display', 'Big Shoulders Display', sans-serif; font-weight: 800; font-size: 2.6rem; letter-spacing: 0.04em; color: var(--yellow-ink, #1c1700); } .ds-tape { height: 16px; background: linear-gradient(var(--yellow, #f2c200), var(--yellow, #f2c200)) center / 100% 10px no-repeat, var(--ink, #141414); }"
+    },
+    {
+      "name": "Hazard Tape",
+      "kind": "custom",
+      "refersTo": "",
+      "description": "45-degree yellow/ink stripe; hard boundaries only (entry to the booking section).",
+      "html": "<div class=\"ds-hazard\"></div>",
+      "css": ".ds-hazard { height: 14px; background: repeating-linear-gradient(-45deg, var(--yellow, #f2c200) 0 16px, var(--ink, #141414) 16px 32px); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Labeled Warehouse",
+    "overview": "**Creative North Star: \"The Labeled Warehouse\"**\n\nA company's knowledge is treated as stock in a working warehouse. Files, emails and spreadsheets arrive at a receiving dock, get a thermal label with a location code and a barcode, and go onto a steel rack where a person or an assistant can pick them. Every visual decision comes from that floor: poured-concrete ground with a fine grain, black ink, safety-yellow floor tape marking lanes and boundaries, white thermal labels, and blue uprights with orange beams holding the bins.\n\nThe register is industrial and plain-spoken, not futuristic. Surfaces are flat and lit like a warehouse hall; depth comes from labels sitting slightly proud of the surface they are stuck to, not from glow or gradients. Type is condensed and tall like aisle signage, with a stencil cut reserved for signs and markings. Data reads in a monospace that looks printed by a label printer. Motion moves like goods on a conveyor: linear travel and a firm stop, never a bounce.\n\nThe world was built in deliberate opposition to the AI-agency default (dark navy, glowing neural nodes, gradient chat bubbles). It stays light, literal and physical.",
+    "keyCharacteristics": [
+      "Cool concrete ground (with an inline SVG noise grain) under black ink.",
+      "Safety yellow is the one committed colour: floor tape, push-plates, signs, and the drenched closing section.",
+      "Rack blue and beam orange exist only inside the rack.",
+      "White thermal labels with location codes and barcodes carry names and data.",
+      "Big Shoulders Display for headings, its Stencil cut for signs, Overpass for reading, Overpass Mono for data only.",
+      "Small, firm corners (1-3px); 1.5-4px ink borders define almost every object."
+    ],
+    "rules": [
+      {
+        "name": "The Floor-Tape Rule",
+        "body": "Yellow appears as tape, plates and signs, laid as bands with ink edges or as solid fields. It is never a gradient, a glow, or a tint.",
+        "section": "colors"
+      },
+      {
+        "name": "The Rack-Only Rule",
+        "body": "Upright blue, beam orange and carton brown appear only inside the rack illustration. They never become link, button, chart or section colours.",
+        "section": "colors"
+      },
+      {
+        "name": "The Yellow-Text Rule",
+        "body": "Anything on yellow is set in yellow-ink, never ink-soft or grey.",
+        "section": "colors"
+      },
+      {
+        "name": "The Mono-Is-Data Rule",
+        "body": "Overpass Mono sets only what a label printer would print: location codes, counts, file names, source references. Headings, buttons, labels and prose never use it.",
+        "section": "typography"
+      },
+      {
+        "name": "The Stencil-Is-Signage Rule",
+        "body": "The stencil cut marks places and numbers (aisle codes, stop numbers, scores, the wordmark) and at most one statement headline. It is not a body or button face.",
+        "section": "typography"
+      },
+      {
+        "name": "The Uppercase-Display Rule",
+        "body": "Big Shoulders headings and buttons are set uppercase; Overpass is set in sentence case.",
+        "section": "typography"
+      },
+      {
+        "name": "The Stuck-On Rule",
+        "body": "Only things that are physically stuck or set onto a surface (labels, slips, the booking card) get a shadow, and it is short and warm-neutral. Panels, sections and buttons are flat.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** use safety yellow as tape, plates, signs and full-section drench, with ink edges where it meets concrete.",
+      "**Do** put names and data on white thermal labels with ink borders, a mono location code, and a barcode where it is a stored item.",
+      "**Do** keep Overpass Mono to codes, counts, file names and source citations.",
+      "**Do** set Big Shoulders headings uppercase at 800-900 weight with tight leading (0.9-1).",
+      "**Do** move things like conveyor goods: linear travel and a firm stop, 160-620ms, with a reduced-motion path that skips travel.",
+      "**Do** mark illustrative content as demo data with the dashed badge."
+    ],
+    "donts": [
+      "**Don't** use the AI-agency default: dark navy grounds, glowing neural nodes, gradient chat bubbles.",
+      "**Don't** use upright blue, beam orange or carton brown outside the rack.",
+      "**Don't** use yellow as a gradient, glow or translucent tint.",
+      "**Don't** put hazard tape anywhere but a hard boundary.",
+      "**Don't** set prose, buttons or headings in Overpass Mono.",
+      "**Don't** add bounce or overshoot to motion.",
+      "**Don't** round corners beyond 3px or drop the ink border from plates, labels and fields."
+    ]
+  }
+}
