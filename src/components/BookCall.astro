@@ -45,6 +45,8 @@ const contact = import.meta.env.PUBLIC_CONTACT_EMAIL || 'hello@erptek.net';
         <textarea class="input" id="book-notes" name="notes" rows="4"></textarea>
       </div>
       <input type="hidden" id="book-readiness" name="readiness" />
+      <div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+      <div class="captcha" data-captcha></div>
       <button class="btn" type="submit">Request my call</button>
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>

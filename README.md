@@ -10,6 +10,7 @@ Built with [Astro](https://astro.build) (static output) and designed with the [I
 npm install
 npm run dev        # http://localhost:4321
 npm run build      # static site in dist/
+npm test           # Apps Script unit tests + browser tests of the booking forms
 npm run detect     # Impeccable anti-pattern detector over src/
 ```
 
@@ -17,7 +18,8 @@ npm run detect     # Impeccable anti-pattern detector over src/
 
 Copy `.env.example` to `.env`:
 
-- `PUBLIC_FORM_ENDPOINT`: URL the booking forms POST JSON to (Formspree, Basin, a Cloudflare Worker and so on). If it's empty, the forms open an email draft instead.
+- `PUBLIC_FORM_ENDPOINT`: the Google Apps Script web app URL that saves leads to a Google Sheet and emails you. Setup: [integrations/google-sheets](integrations/google-sheets/README.md). If it's empty, the forms open an email draft instead.
+- `PUBLIC_TURNSTILE_SITE_KEY`: Cloudflare Turnstile site key for the captcha. Leave it empty to turn the captcha off.
 - `PUBLIC_CONTACT_EMAIL`: shown in the footer and used for the email fallback (default `hello@erptek.net`).
 
 ## Deploy (Ubuntu VPS + Caddy, via GitHub Actions)

@@ -91,6 +91,8 @@ const questions = [
               <option>500+ people</option>
             </select>
           </div>
+          <div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+          <div class="captcha" data-captcha></div>
           <button class="btn" type="submit">Book the call</button>
         </div>
         <p class="form-status" role="status" aria-live="polite"></p>
@@ -221,7 +223,8 @@ const questions = [
     gap: var(--space-s);
     align-items: end;
   }
-  .strip__fields .btn {
+  .strip__fields .btn,
+  .strip__fields .captcha {
     grid-column: 1 / -1;
   }
   .strip .form-status:empty {

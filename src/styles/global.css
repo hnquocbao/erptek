@@ -243,6 +243,20 @@ textarea.input {
   resize: vertical;
 }
 
+/* Honeypot: off-screen for people, still in the DOM for naive bots. */
+.hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Turnstile slot: takes no space until Cloudflare asks for a click. */
+.captcha:empty {
+  display: none;
+}
+
 .form-status {
   font-weight: 700;
   min-height: 1.5em;
