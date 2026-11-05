@@ -156,3 +156,43 @@ test('invalid input never reaches the endpoint', async () => {
   assert.equal(seen.posts.length, 0);
   await page.close();
 });
+
+test('Vietnamese page: translated UI, English values in the submission', async () => {
+  seen.posts.length = 0; seen.nextReply = { ok: true };
+  const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  await page.route('https://challenges.cloudflare.com/**', (route) =>
+    route.fulfill({ contentType: 'text/javascript', body: `window.turnstile = { render(el, o) { el.dataset.language = o.language; return 'w'; }, getResponse() { return 'fake-token'; }, reset() {} }; window.__erptekTurnstileReady();` }),
+  );
+  await page.goto(`http://127.0.0.1:${SITE}/vi/`);
+  assert.equal(await page.getAttribute('html', 'lang'), 'vi');
+  assert.match(await page.textContent('h1'), /dán nhãn/);
+  assert.equal(await page.getAttribute('.langs a[aria-current="page"]', 'hreflang'), 'vi');
+  assert.equal(await page.getAttribute('.langs a[hreflang="en"]', 'href'), '/');
+  await page.waitForFunction(() => document.querySelector('[data-captcha]')?.dataset.language === 'vi');
+  const form = page.locator('form[data-booking="hero"]');
+  await form.locator('input[name="email"]').fill('lan@acme.vn');
+  await form.locator('select[name="size"]').selectOption({ label: '21–100 người' });
+  await form.locator('button[type="submit"]').click();
+  await form.locator('.form-status[data-state="ok"]').waitFor({ timeout: 5000 });
+  assert.match(await form.locator('.form-status').textContent(), /Đã nhận/);
+  assert.equal(seen.posts[0].body.size, '21–100 people');
+  assert.equal(seen.posts[0].body.page, '/vi/');
+  await page.close();
+});
+
+test('Vietnamese readiness check and error messages', async () => {
+  seen.posts.length = 0; seen.nextReply = { ok: false, error: 'email' };
+  const page = await openPage.call(null).then(async (p) => { await p.goto(`http://127.0.0.1:${SITE}/vi/`); return p; });
+  await page.locator('#readiness input[type="checkbox"]').nth(0).check({ force: true });
+  assert.equal(await page.textContent('[data-zone]'), 'Bến nhập kho');
+  for (let i = 1; i < 7; i++) await page.locator('#readiness input[type="checkbox"]').nth(i).check({ force: true });
+  assert.equal(await page.textContent('[data-zone]'), 'Sẵn sàng lấy hàng');
+  const form = page.locator('form[data-booking="hero"]');
+  await page.waitForFunction(() => document.querySelector('form[data-booking="hero"] [data-captcha]')?.dataset.sitekey);
+  await form.locator('input[name="email"]').fill('lan@acme.vn');
+  await form.locator('select[name="size"]').selectOption({ index: 1 });
+  await form.locator('button[type="submit"]').click();
+  await form.locator('.form-status[data-state="error"]').waitFor({ timeout: 5000 });
+  assert.match(await form.locator('.form-status').textContent(), /email có vẻ chưa đúng/);
+  await page.close();
+});

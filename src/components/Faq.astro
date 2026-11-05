@@ -1,18 +1,14 @@
 ---
-const faqs = [
-  { q: 'Do we need to replace our ERP or other systems?', a: 'No. We start from the systems you already run and connect to them. If something genuinely blocks you, we will say so and explain the options, but replacing software is never the starting point.' },
-  { q: 'What happens on the readiness call?', a: 'We ask how your company works today: your systems, where data lives, and which tasks take the most time. You leave with an honest view of where to start, even if the answer is that you are not ready yet.' },
-  { q: 'What about our data and confidentiality?', a: 'Before anything is connected we agree, in writing, which data may be used, where it is stored, and who can see it. Rules for using AI tools are part of the readiness work, not an afterthought.' },
-  { q: 'Which AI tools and models do you use?', a: 'We choose after the assessment, to fit your systems, budget and data rules. The second brain and assistants are designed so you are not locked into one vendor.' },
-  { q: 'We are a small company. Is this for us?', a: 'Yes. Small and mid-sized companies often benefit most, because a few people carry most of the knowledge. Getting it written down and findable pays off quickly.' },
-  { q: 'Will this replace our staff?', a: 'That is not the goal. Assistants take over searching, copying and first drafts so your people spend their time on customers, judgement and the work only they can do.' },
-];
+import { copy, type Lang } from '../i18n/copy';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = copy[lang].faq;
 ---
 <section class="faq" id="faq" aria-labelledby="faq-title">
   <div class="wrap faq__grid">
-    <h2 id="faq-title">Questions owners ask us</h2>
+    <h2 id="faq-title">{t.title}</h2>
     <div class="faq__list">
-      {faqs.map((f) => (
+      {t.items.map((f) => (
         <details>
           <summary>
             <span>{f.q}</span>

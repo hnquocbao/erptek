@@ -1,17 +1,15 @@
 ---
-const steps = [
-  { name: 'Receiving', does: 'Readiness call and assessment', text: 'We look at your systems, your data and the work that eats the most hours, then agree where to start.' },
-  { name: 'Put-away', does: 'Prepare and structure', text: 'Data cleaned, owners named, procedures written down, and knowledge shelved in the second brain.' },
-  { name: 'Pick', does: 'Deploy assistants', text: 'One team, one job first. We check it really saves time before it reaches anyone else.' },
-  { name: 'Cycle count', does: 'Keep it current', text: 'Regular reviews so the shelves stay labeled as your products, prices and people change.' },
-];
+import { copy, type Lang } from '../i18n/copy';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = copy[lang].method;
 ---
 <section class="method" id="method" aria-labelledby="method-title">
   <div class="wrap">
-    <h2 id="method-title">How a project runs</h2>
-    <p class="method__lede">The same four moves a good warehouse makes every day, applied to what your company knows.</p>
+    <h2 id="method-title">{t.title}</h2>
+    <p class="method__lede">{t.lede}</p>
     <ol class="lane">
-      {steps.map((s, i) => (
+      {t.steps.map((s, i) => (
         <li class="stop">
           <span class="stop__n" aria-hidden="true">{i + 1}</span>
           <h3>{s.name}</h3>

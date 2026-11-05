@@ -1,20 +1,18 @@
 ---
 // First viewport: offer + working booking strip on the left, the live rack on the right.
 // All rack content is illustrative demo data for a fictional company.
-const bins = [
-  { code: 'FIN-01', name: 'Invoices & approvals', stock: 2 },
-  { code: 'SAL-01', name: 'Price lists', stock: 1 },
-  { code: 'INV-01', name: 'Stock & SKUs', stock: 3 },
-  { code: 'HR-01', name: 'Policies', stock: 2 },
-  { code: 'OPS-02', name: 'Procedures', stock: 1 },
-  { code: 'CUS-02', name: 'Customer emails', stock: 3 },
-  { code: 'PRJ-02', name: 'Project notes', stock: 1 },
-  { code: 'LEG-02', name: 'Contracts', stock: 1 },
-  { code: 'MTG-03', name: 'Meeting decisions', stock: 0 },
-  { code: 'PUR-03', name: 'Supplier terms', stock: 1 },
-  { code: 'QA-03', name: 'Quality checks', stock: 2 },
-  { code: 'TRN-03', name: 'Training', stock: 1 },
+import { copy, sizeValues, type Lang } from '../i18n/copy';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = copy[lang].hero;
+const f = copy[lang].form;
+
+const stock: [string, number][] = [
+  ['FIN-01', 2], ['SAL-01', 1], ['INV-01', 3], ['HR-01', 2],
+  ['OPS-02', 1], ['CUS-02', 3], ['PRJ-02', 1], ['LEG-02', 1],
+  ['MTG-03', 0], ['PUR-03', 1], ['QA-03', 2], ['TRN-03', 1],
 ];
+const bins = stock.map(([code, n]) => ({ code, name: t.bins[code], stock: n }));
 
 // Code-39-ish bar pattern derived from the bin code: decorative, deterministic.
 function bars(code: string) {
@@ -31,69 +29,41 @@ function bars(code: string) {
   return { rects: out, width: x };
 }
 
-const incoming = [
-  { file: 'pricing_2026_v7_USE-THIS.xlsx', kind: 'sheet', to: 'SAL-01' },
-  { file: 'Re: Re: distributor returns', kind: 'mail', to: 'CUS-02' },
-  { file: 'contract_ABC_signed (2).pdf', kind: 'doc', to: 'LEG-02' },
-  { file: 'packing-SOP-old-DONT-USE.docx', kind: 'doc', to: 'OPS-02' },
-  { file: 'chat: who signs POs now?', kind: 'chat', to: 'FIN-01' },
-  { file: 'mon-meeting-notes.txt', kind: 'note', to: 'MTG-03' },
-  { file: 'new_supplier_checklist.pdf', kind: 'doc', to: 'PUR-03' },
+const routes: { kind: string; to: string }[] = [
+  { kind: 'sheet', to: 'SAL-01' },
+  { kind: 'mail', to: 'CUS-02' },
+  { kind: 'doc', to: 'LEG-02' },
+  { kind: 'doc', to: 'OPS-02' },
+  { kind: 'chat', to: 'FIN-01' },
+  { kind: 'note', to: 'MTG-03' },
+  { kind: 'doc', to: 'PUR-03' },
 ];
-
-const questions = [
-  {
-    id: 'q1',
-    q: 'Can distributors return unopened stock?',
-    a: 'Yes, within 30 days, unopened and with the original delivery note. Orders over 50 units carry a 10% restocking fee.',
-    bins: ['LEG-02', 'SAL-01'],
-    src: ['LEG-02 · Distributor agreement v4 · §7.2', 'SAL-01 · Price list 2026 · Terms'],
-  },
-  {
-    id: 'q2',
-    q: 'Who approves a purchase over $5,000?',
-    a: 'The finance manager, then a director if the supplier is new. Raise it on form PO-2 in the ERP.',
-    bins: ['FIN-01', 'PUR-03'],
-    src: ['FIN-01 · Approval matrix 2026', 'PUR-03 · New supplier checklist'],
-  },
-  {
-    id: 'q3',
-    q: 'How do we pack fragile orders?',
-    a: 'Double box with 5 cm of fill on every side, a FRAGILE label on two faces, and a photo before sealing.',
-    bins: ['OPS-02', 'QA-03'],
-    src: ['OPS-02 · Packing procedure rev. 3', 'QA-03 · Damage claims review, March'],
-  },
-];
+const incoming = routes.map((r, i) => ({ ...r, file: t.incoming[i] }));
+const questions = t.questions;
 ---
 <section class="hero" aria-labelledby="hero-title">
   <div class="wrap hero__grid">
     <div class="hero__copy">
-      <h1 id="hero-title">Every answer your company has, labeled and on&nbsp;the&nbsp;shelf.</h1>
-      <p class="hero__lede">
-        ERPTEK gets your data and workflows ready for AI, builds your company's second brain,
-        and gives each employee an assistant that finds, checks and acts on what you already know.
-      </p>
+      <h1 id="hero-title">{t.title}</h1>
+      <p class="hero__lede">{t.lede}</p>
 
       <form class="strip" data-booking="hero" novalidate>
-        <p class="strip__title" id="strip-title">Start with a free readiness call</p>
+        <p class="strip__title" id="strip-title">{t.stripTitle}</p>
         <div class="strip__fields" role="group" aria-labelledby="strip-title">
           <div class="field">
-            <label for="hero-email">Work email</label>
-            <input class="input" id="hero-email" name="email" type="email" autocomplete="email" required placeholder="you@company.com" />
+            <label for="hero-email">{f.email}</label>
+            <input class="input" id="hero-email" name="email" type="email" autocomplete="email" required placeholder={f.emailPlaceholder} />
           </div>
           <div class="field">
-            <label for="hero-size">Company size</label>
+            <label for="hero-size">{f.size}</label>
             <select class="input" id="hero-size" name="size" required>
-              <option value="">Choose</option>
-              <option>1–20 people</option>
-              <option>21–100 people</option>
-              <option>101–500 people</option>
-              <option>500+ people</option>
+              <option value="">{f.choose}</option>
+              {sizeValues.map((v, i) => <option value={v}>{f.sizes[i]}</option>)}
             </select>
           </div>
-          <div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+          <div class="hp" aria-hidden="true"><label>{f.honeypot}<input name="website" tabindex="-1" autocomplete="off" /></label></div>
           <div class="captcha" data-captcha></div>
-          <button class="btn" type="submit">Book the call</button>
+          <button class="btn" type="submit">{t.submit}</button>
         </div>
         <p class="form-status" role="status" aria-live="polite"></p>
       </form>
@@ -101,12 +71,12 @@ const questions = [
 
     <figure class="rack" data-rack aria-labelledby="rack-caption">
       <figcaption id="rack-caption" class="rack__caption">
-        <span>Your files, put away and ready to pick</span>
-        <span class="rack__demo code">Demo data</span>
+        <span>{t.rackCaption}</span>
+        <span class="rack__demo code">{t.demo}</span>
       </figcaption>
 
-      <div class="dock" aria-label="Receiving: unsorted files">
-        <span class="dock__sign" aria-hidden="true">Receiving</span>
+      <div class="dock" aria-label={t.dockLabel}>
+        <span class="dock__sign" aria-hidden="true">{t.dockSign}</span>
         <ul class="dock__pile" data-dock>
           {incoming.map((item, i) => (
             <li class="slip" data-to={item.to} data-kind={item.kind} style={`--tilt:${[-3, 2, -1.5, 3.5, -2.5, 1, -4][i]}deg`}>
@@ -121,9 +91,8 @@ const questions = [
             </li>
           ))}
         </ul>
-        <p class="dock__clear">Dock clear: {incoming.length} files labeled and shelved.</p>
+        <p class="dock__clear">{t.dockClear(incoming.length)}</p>
       </div>
-
       <div class="frame">
         <ul class="bins">
           {bins.map((b) => (
@@ -147,14 +116,14 @@ const questions = [
       </div>
 
       <div class="ask" data-ask>
-        <p class="ask__title" id="ask-title">Ask the second brain</p>
+        <p class="ask__title" id="ask-title">{t.askTitle}</p>
         <div class="ask__qs" role="group" aria-labelledby="ask-title">
           {questions.map((q) => (
             <button type="button" class="ask__q" data-q={q.id} aria-pressed="false">{q.q}</button>
           ))}
         </div>
-        <div class="answer" data-answer aria-live="polite">
-          <p class="answer__empty">Pick a question. The assistant answers only from labeled bins and shows where it looked.</p>
+        <div class="answer" data-answer data-sources={t.sources} aria-live="polite">
+          <p class="answer__empty">{t.askEmpty}</p>
         </div>
         <script type="application/json" data-answers is:inline set:html={JSON.stringify(questions)}></script>
       </div>
@@ -261,6 +230,7 @@ const questions = [
     background: var(--concrete-deep);
   }
   .dock__sign {
+    white-space: nowrap;
     position: absolute;
     top: 0.5rem;
     left: var(--space-s);
@@ -404,9 +374,7 @@ const questions = [
     grid-column: 1 / -1;
     font-size: 0.8rem;
     font-weight: 700;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
   }
   .bin.is-put .tag {
     background: var(--yellow);
@@ -679,7 +647,7 @@ const questions = [
         p.textContent = q.a;
         const ul = document.createElement('ul');
         ul.className = 'answer__src';
-        ul.setAttribute('aria-label', 'Sources');
+        ul.setAttribute('aria-label', answer.dataset.sources || 'Sources');
         q.src.forEach((s) => {
           const li = document.createElement('li');
           li.textContent = s;

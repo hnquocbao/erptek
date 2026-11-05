@@ -1,21 +1,28 @@
 ---
 import Wordmark from './Wordmark.astro';
+import { copy, type Lang } from '../i18n/copy';
+interface Props { lang: Lang; linkBase?: string }
+const { lang, linkBase = '' } = Astro.props;
+const t = copy[lang];
 const contact = import.meta.env.PUBLIC_CONTACT_EMAIL || 'hello@erptek.net';
 const year = new Date().getFullYear();
+const links = [
+  { href: `${linkBase}#services`, label: t.nav.services },
+  { href: `${linkBase}#method`, label: t.nav.method },
+  { href: `${linkBase}#readiness`, label: t.nav.readiness },
+  { href: `${linkBase}#faq`, label: t.nav.faq },
+  { href: `${linkBase}#book`, label: t.nav.book },
+];
 ---
 <footer class="foot">
   <div class="wrap foot__grid">
     <div class="foot__brand">
       <Wordmark size="lg" />
-      <p>AI readiness, company second brains and agent assistants for small and mid-sized companies.</p>
+      <p>{t.footer.blurb}</p>
     </div>
-    <nav aria-label="Footer">
+    <nav aria-label={t.footer.navLabel}>
       <ul>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#method">Method</a></li>
-        <li><a href="#readiness">Readiness check</a></li>
-        <li><a href="#faq">FAQ</a></li>
-        <li><a href="#book">Book a call</a></li>
+        {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
       </ul>
     </nav>
     <p class="foot__contact"><a href={`mailto:${contact}`}>{contact}</a><br />erptek.net</p>

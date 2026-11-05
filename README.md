@@ -53,7 +53,8 @@ Changing `deploy/Caddyfile` later doesn't redeploy it automatically. Copy it to 
 
 ## Structure
 
-- `src/pages/index.astro`: home page, assembled from `src/components/*`
+- `src/pages/index.astro` (English, `/`) and `src/pages/vi/index.astro` (Vietnamese, `/vi/`): both render `src/components/pages/Home.astro`
+- `src/i18n/copy.ts`: all site copy, English and Vietnamese. The Vietnamese object must match the English shape, so a missing string is a type error. Form values (company size) are submitted in English so the leads sheet reads the same for both languages; the Page column shows `/vi/` for Vietnamese leads.
 - `src/components/Hero.astro`: headline, booking strip, and the interactive rack demo (put-away, then pick)
 - `src/components/Readiness.astro`: 8-question readiness self-check that runs in the browser
 - `src/styles/global.css`: design tokens (cool concrete, ink, safety yellow, rack blue and orange) and shared controls

@@ -1,44 +1,18 @@
 ---
-const aisles = [
-  {
-    code: 'ADV',
-    title: 'Know where you stand',
-    service: 'Advisory',
-    text: 'We map how work really moves through your company: the people, the systems, and the spreadsheets nobody admits to. You get a plain-language picture of where AI will pay off now and where it will not yet.',
-    get: ['Current-state map', 'Opportunities ranked by effort', 'Step-by-step roadmap'],
-  },
-  {
-    code: 'PRP',
-    title: 'Get data and workflows ready',
-    service: 'AI readiness',
-    text: 'We clean, structure and connect the data AI will rely on, set naming and ownership rules, and write down the procedures that today live only in people’s heads.',
-    get: ['Data inventory with owners', 'Cleaned, connected sources', 'Documented workflows', 'Rules for using AI'],
-  },
-  {
-    code: 'KB',
-    title: 'One place your company remembers',
-    service: 'Second brain',
-    text: 'A company knowledge base built from your real documents, decisions and procedures, organized so anyone, and any assistant, finds the current answer and sees where it came from.',
-    get: ['Structured knowledge base', 'Answers linked to sources', 'A routine to keep it current'],
-  },
-  {
-    code: 'AGT',
-    title: 'An assistant for every role',
-    service: 'Agent assistants',
-    text: 'Assistants built around specific jobs: answering customers, preparing quotes, onboarding new staff, checking orders. They work from the second brain, inside the tools your team already uses.',
-    get: ['Role-specific assistants', 'Review steps and guardrails', 'Hands-on staff training'],
-  },
-];
+import { copy, type Lang } from '../i18n/copy';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = copy[lang].aisles;
 ---
 <section class="aisles" id="services" aria-labelledby="services-title">
   <div class="wrap">
     <header class="aisles__head">
-      <h2 id="services-title">Four aisles. Start in the one that fits.</h2>
-      <p>Most companies start with advice and readiness. Some already have tidy data and go straight to a second brain. We will tell you which one you are.</p>
+      <h2 id="services-title">{t.title}</h2>
+      <p>{t.intro}</p>
     </header>
 
     <ol class="aisles__list">
-      {aisles.map((a) => (
+      {t.items.map((a) => (
         <li class="aisle">
           <div class="aisle__sign" aria-hidden="true"><span>{a.code}</span></div>
           <div class="aisle__body">
@@ -47,7 +21,7 @@ const aisles = [
             <p class="aisle__text">{a.text}</p>
           </div>
           <div class="aisle__shelf">
-            <p class="aisle__get">You get</p>
+            <p class="aisle__get">{t.get}</p>
             <ul>
               {a.get.map((g) => <li>{g}</li>)}
             </ul>

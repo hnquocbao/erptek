@@ -280,3 +280,17 @@ textarea.input {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Vietnamese: stacked diacritics (Ể, Ố, Ặ…) need taller lines in uppercase display type. */
+:root:lang(vi) :is(h1, h2, h3) {
+  line-height: 1.08;
+}
+:root:lang(vi) :is(.strip__title, .ask__title, .result__zone, .btn) {
+  line-height: 1.15;
+}
+/* Vietnamese runs longer: keep the hero headline to three lines on desktop. */
+@media (min-width: 36.01rem) {
+  :root:lang(vi) .hero h1 {
+    font-size: clamp(2.5rem, 1.2rem + 3vw, 4rem);
+  }
+}

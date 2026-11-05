@@ -1,20 +1,33 @@
 ---
+// One 404 for the whole site (static hosts serve a single 404.html), so it speaks both languages.
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { copy } from '../i18n/copy';
+const en = copy.en.notFound;
+const vi = copy.vi.notFound;
 ---
-<Base title="Not on the shelf | ERPTEK">
-  <Header />
+<Base lang="en" title={en.title}>
+  <Header lang="en" linkBase="/" />
   <main id="main" class="wrap lost">
-    <p class="lost__code">Location not found</p>
-    <h1>This bin is empty.</h1>
-    <p>The page you were looking for has moved or never existed.</p>
-    <a class="btn btn--yellow" href="/">Back to the home page</a>
+    <p class="lost__code">{en.code}</p>
+    <h1>{en.heading}</h1>
+    <p>{en.text}</p>
+    <a class="btn btn--yellow" href="/">{en.back}</a>
+    <div class="lost__vi" lang="vi">
+      <p class="lost__code">{vi.code}</p>
+      <p class="lost__vi-heading">{vi.heading}</p>
+      <p>{vi.text}</p>
+      <a href="/vi/">{vi.back}</a>
+    </div>
   </main>
-  <Footer />
+  <Footer lang="en" linkBase="/" />
 </Base>
 <style>
   .lost { display: grid; gap: 1.25rem; justify-items: start; padding-block: 6rem; min-height: 60vh; }
   .lost__code { font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-soft); }
   h1 { font-size: var(--step-4); text-transform: uppercase; font-weight: 900; }
+  .lost__vi { display: grid; gap: 0.6rem; margin-top: var(--space-l); padding-top: var(--space-m); border-top: 2px solid var(--ink); }
+  .lost__vi-heading { font-family: var(--font-display); font-weight: 800; font-size: var(--step-2); text-transform: uppercase; line-height: 1.1; }
+  .lost__vi a { font-weight: 700; }
 </style>

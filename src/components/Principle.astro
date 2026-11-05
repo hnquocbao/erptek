@@ -1,14 +1,20 @@
+---
+import { copy, type Lang } from '../i18n/copy';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = copy[lang].principle;
+---
 <section class="principle" aria-labelledby="principle-title">
   <div class="wrap principle__grid">
-    <h2 id="principle-title">An assistant is only as good as the shelf it picks from.</h2>
+    <h2 id="principle-title">{t.title}</h2>
     <div class="principle__pair">
       <div class="side side--bad">
-        <h3>Unlabeled warehouse</h3>
-        <p>The assistant guesses. It mixes last year's price list with this year's, quotes a procedure nobody follows, and within a month your staff stop trusting it.</p>
+        <h3>{t.badTitle}</h3>
+        <p>{t.bad}</p>
       </div>
       <div class="side side--good">
-        <h3>Labeled warehouse</h3>
-        <p>Every answer comes from the current version, with its source attached. Staff check it in one click, and the assistant gets used every day.</p>
+        <h3>{t.goodTitle}</h3>
+        <p>{t.good}</p>
       </div>
     </div>
   </div>

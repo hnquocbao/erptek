@@ -7,36 +7,45 @@ import '@fontsource/overpass/400';
 import '@fontsource/overpass/700';
 import '@fontsource/overpass-mono/500';
 import '../styles/global.css';
+import { copy, homePath, langs, type Lang } from '../i18n/copy';
 
 interface Props {
+  lang: Lang;
   title?: string;
   description?: string;
+  /** Emit hreflang alternates (pages that exist in every language). */
+  alternates?: boolean;
 }
 
-const {
-  title = 'ERPTEK | Get your company ready for AI',
-  description = 'ERPTEK prepares your data and workflows for AI, builds your company second brain, and gives every employee an AI assistant that works from it.',
-} = Astro.props;
+const { lang, alternates = false } = Astro.props;
+const t = copy[lang];
+const title = Astro.props.title ?? t.meta.title;
+const description = Astro.props.description ?? t.meta.description;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const hreflang: Record<Lang, string> = { en: 'en', vi: 'vi' };
 ---
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {alternates && langs.map((l) => <link rel="alternate" hreflang={hreflang[l]} href={new URL(homePath[l], Astro.site)} />)}
+    {alternates && <link rel="alternate" hreflang="x-default" href={new URL(homePath.en, Astro.site)} />}
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="theme-color" content="#f2c200" />
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={t.meta.ogLocale} />
+    {alternates && langs.filter((l) => l !== lang).map((l) => <meta property="og:locale:alternate" content={copy[l].meta.ogLocale} />)}
     <meta name="twitter:card" content="summary" />
   </head>
   <body>
-    <a class="skip" href="#main">Skip to content</a>
+    <a class="skip" href="#main">{t.skip}</a>
     <slot />
     <style>
       .skip {

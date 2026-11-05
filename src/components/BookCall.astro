@@ -1,53 +1,53 @@
 ---
+import { copy, sizeValues, type Lang } from '../i18n/copy';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = copy[lang].book;
+const f = copy[lang].form;
 const contact = import.meta.env.PUBLIC_CONTACT_EMAIL || 'hello@erptek.net';
 ---
 <section class="book" id="book" aria-labelledby="book-title">
   <div class="tape" aria-hidden="true"></div>
   <div class="wrap book__grid">
     <div class="book__copy">
-      <h2 id="book-title">Book a free readiness call</h2>
-      <p class="book__lede">One conversation about how your company works today. No slides, no tool demo.</p>
+      <h2 id="book-title">{t.title}</h2>
+      <p class="book__lede">{t.lede}</p>
       <ul class="book__list">
-        <li>We ask about your systems, your data and the tasks that eat the most time.</li>
-        <li>You get an honest view of where AI can help first, and what has to be fixed before it can.</li>
-        <li>If we are not the right fit, we will say so.</li>
+        {t.list.map((item) => <li>{item}</li>)}
       </ul>
-      <p class="book__mail">Prefer email? <a href={`mailto:${contact}`}>{contact}</a></p>
+      <p class="book__mail">{t.mail} <a href={`mailto:${contact}`}>{contact}</a></p>
     </div>
 
     <form class="book__form" data-booking="close" novalidate>
       <div class="field">
-        <label for="book-name">Your name</label>
+        <label for="book-name">{t.name}</label>
         <input class="input" id="book-name" name="name" autocomplete="name" required />
       </div>
       <div class="field">
-        <label for="book-email">Work email</label>
-        <input class="input" id="book-email" name="email" type="email" autocomplete="email" required placeholder="you@company.com" />
+        <label for="book-email">{f.email}</label>
+        <input class="input" id="book-email" name="email" type="email" autocomplete="email" required placeholder={f.emailPlaceholder} />
       </div>
       <div class="book__row">
         <div class="field">
-          <label for="book-company">Company</label>
+          <label for="book-company">{t.company}</label>
           <input class="input" id="book-company" name="company" autocomplete="organization" required />
         </div>
         <div class="field">
-          <label for="book-size">Company size</label>
+          <label for="book-size">{f.size}</label>
           <select class="input" id="book-size" name="size" required>
-            <option value="">Choose</option>
-            <option>1–20 people</option>
-            <option>21–100 people</option>
-            <option>101–500 people</option>
-            <option>500+ people</option>
+            <option value="">{f.choose}</option>
+            {sizeValues.map((v, i) => <option value={v}>{f.sizes[i]}</option>)}
           </select>
         </div>
       </div>
       <div class="field">
-        <label for="book-notes">What takes up the most time in your company? <span class="opt">(optional)</span></label>
+        <label for="book-notes">{t.notes} <span class="opt">{t.optional}</span></label>
         <textarea class="input" id="book-notes" name="notes" rows="4"></textarea>
       </div>
       <input type="hidden" id="book-readiness" name="readiness" />
-      <div class="hp" aria-hidden="true"><label>Leave this empty<input name="website" tabindex="-1" autocomplete="off" /></label></div>
+      <div class="hp" aria-hidden="true"><label>{f.honeypot}<input name="website" tabindex="-1" autocomplete="off" /></label></div>
       <div class="captcha" data-captcha></div>
-      <button class="btn" type="submit">Request my call</button>
+      <button class="btn" type="submit">{t.submit}</button>
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>
   </div>

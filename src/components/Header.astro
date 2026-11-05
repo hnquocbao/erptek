@@ -1,21 +1,40 @@
 ---
 import Wordmark from './Wordmark.astro';
+import { copy, homePath, langs, type Lang } from '../i18n/copy';
+interface Props { lang: Lang; switchTo?: Partial<Record<Lang, string>>; linkBase?: string }
+const { lang, switchTo = homePath, linkBase = '' } = Astro.props;
+const t = copy[lang];
 const links = [
-  { href: '#services', label: 'Services' },
-  { href: '#method', label: 'Method' },
-  { href: '#readiness', label: 'Readiness check' },
-  { href: '#faq', label: 'FAQ' },
+  { href: `${linkBase}#services`, label: t.nav.services },
+  { href: `${linkBase}#method`, label: t.nav.method },
+  { href: `${linkBase}#readiness`, label: t.nav.readiness },
+  { href: `${linkBase}#faq`, label: t.nav.faq },
 ];
+const names: Record<Lang, { short: string; full: string }> = {
+  en: { short: 'EN', full: 'English' },
+  vi: { short: 'VI', full: 'Tiếng Việt' },
+};
 ---
 <header class="top">
   <div class="wrap top__inner">
-    <a href="/" class="top__home" aria-label="ERPTEK home"><Wordmark /></a>
-    <nav aria-label="Main">
+    <a href={homePath[lang]} class="top__home" aria-label={t.nav.home}><Wordmark /></a>
+    <nav aria-label={t.nav.label}>
       <ul class="top__links">
         {links.map((l) => <li><a href={l.href}>{l.label}</a></li>)}
       </ul>
     </nav>
-    <a class="btn btn--yellow top__cta" href="#book">Book a call</a>
+    <nav class="langs" aria-label={t.langSwitch.label}>
+      {langs.map((l) => (
+        <a
+          href={switchTo[l] ?? homePath[l]}
+          hreflang={l}
+          lang={l}
+          aria-current={l === lang ? 'page' : undefined}
+          title={names[l].full}
+        ><span aria-hidden="true">{names[l].short}</span><span class="visually-hidden">{names[l].full}</span></a>
+      ))}
+    </nav>
+    <a class="btn btn--yellow top__cta" href={`${linkBase}#book`}>{t.nav.book}</a>
   </div>
   <div class="top__beam" aria-hidden="true"></div>
 </header>
@@ -37,8 +56,36 @@ const links = [
     text-decoration: none;
     flex: none;
   }
-  nav {
+  nav:first-of-type {
     margin-left: auto;
+  }
+  /* Language switch: a two-cell shelf label. */
+  .langs {
+    display: flex;
+    flex: none;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    background: var(--label);
+    overflow: hidden;
+  }
+  .langs a {
+    display: block;
+    padding: 0.4rem 0.55rem 0.3rem;
+    font-family: var(--font-code);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+  .langs a + a {
+    border-left: 2px solid var(--ink);
+  }
+  .langs a:hover {
+    background: var(--concrete-deep);
+  }
+  .langs a[aria-current='page'] {
+    background: var(--ink);
+    color: var(--label);
   }
   .top__links {
     display: flex;
@@ -59,6 +106,7 @@ const links = [
     background: var(--concrete-deep);
   }
   .top__cta {
+    white-space: nowrap;
     min-height: 2.6rem;
     padding-block: 0.5rem 0.4rem;
     font-size: 1.05rem;
@@ -69,8 +117,12 @@ const links = [
     background: var(--yellow);
     border-block: 2px solid var(--ink);
   }
-  @media (max-width: 52rem) {
-    nav { display: none; }
-    .top__cta { margin-left: auto; }
+  @media (max-width: 64rem) {
+    nav:first-of-type { display: none; }
+    .langs { margin-left: auto; }
+  }
+  @media (max-width: 24rem) {
+    .top__inner { gap: 0.6rem; }
+    .top__cta { padding-inline: 0.8rem; font-size: 0.95rem; }
   }
 </style>

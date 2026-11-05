@@ -26,13 +26,38 @@ const TURNSTILE_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?ren
 
 const widgets = new WeakMap<HTMLFormElement, string>();
 
-const messages: Record<string, string> = {
-  email: 'That email address does not look right. Check it and send again.',
-  size: 'Choose your company size, then send again.',
-  missing: 'Fill in your name and company, then send again.',
-  captcha: 'The security check did not pass. Wait for it to finish, then send again.',
-  server: `Something went wrong on our side. Try again, or write to ${contact}.`,
+const text = {
+  en: {
+    invalid: 'Check the highlighted field, then send again.',
+    mailto: `Opening your email app. If nothing happens, write to ${contact}.`,
+    subject: 'Readiness call request',
+    loading: 'The security check is still loading. Wait a moment, then send again.',
+    sending: 'Sending…',
+    ok: 'Received. We will email you to set a time.',
+    email: 'That email address does not look right. Check it and send again.',
+    size: 'Choose your company size, then send again.',
+    missing: 'Fill in your name and company, then send again.',
+    captcha: 'The security check did not pass. Wait for it to finish, then send again.',
+    server: `Something went wrong on our side. Try again, or write to ${contact}.`,
+  },
+  vi: {
+    invalid: 'Kiểm tra ô được đánh dấu rồi gửi lại.',
+    mailto: `Đang mở ứng dụng email. Nếu không có gì xảy ra, hãy viết cho ${contact}.`,
+    subject: 'Yêu cầu tư vấn mức sẵn sàng',
+    loading: 'Bước kiểm tra bảo mật đang tải. Vui lòng đợi một chút rồi gửi lại.',
+    sending: 'Đang gửi…',
+    ok: 'Đã nhận. Chúng tôi sẽ email cho bạn để hẹn lịch.',
+    email: 'Địa chỉ email có vẻ chưa đúng. Kiểm tra lại rồi gửi.',
+    size: 'Chọn quy mô công ty rồi gửi lại.',
+    missing: 'Điền họ tên và tên công ty rồi gửi lại.',
+    captcha: 'Bước kiểm tra bảo mật chưa đạt. Đợi kiểm tra hoàn tất rồi gửi lại.',
+    server: `Có lỗi ở phía chúng tôi. Hãy thử lại, hoặc viết cho ${contact}.`,
+  },
 };
+type Lang = keyof typeof text;
+const lang: Lang = document.documentElement.lang === 'vi' ? 'vi' : 'en';
+const msg = text[lang];
+const errorCodes = ['email', 'size', 'missing', 'captcha', 'server'] as const;
 
 function setStatus(form: HTMLFormElement, state: 'ok' | 'error' | 'busy' | '', text: string) {
   const status = form.querySelector<HTMLElement>('.form-status');
@@ -45,7 +70,7 @@ function mailtoFallback(data: Record<string, string>) {
   const lines = Object.entries(data)
     .filter(([k, v]) => v && k !== 'website' && k !== 'cf-turnstile-response')
     .map(([k, v]) => `${k}: ${v}`);
-  window.location.href = `mailto:${contact}?subject=${encodeURIComponent('Readiness call request')}&body=${encodeURIComponent(lines.join('\n'))}`;
+  window.location.href = `mailto:${contact}?subject=${encodeURIComponent(msg.subject)}&body=${encodeURIComponent(lines.join('\n'))}`;
 }
 
 function loadTurnstile(forms: HTMLFormElement[]) {
@@ -62,6 +87,7 @@ function loadTurnstile(forms: HTMLFormElement[]) {
         // Stays hidden unless Cloudflare needs the visitor to click.
         appearance: 'interaction-only',
         'response-field': false,
+        language: lang,
       });
       widgets.set(form, id);
     });
@@ -93,7 +119,7 @@ export function initBookingForms() {
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!form.reportValidity()) {
-        setStatus(form, 'error', 'Check the highlighted field, then send again.');
+        setStatus(form, 'error', msg.invalid);
         return;
       }
       const data: Record<string, string> = Object.fromEntries(
@@ -103,14 +129,14 @@ export function initBookingForms() {
       data.page = window.location.pathname;
 
       if (!endpoint) {
-        setStatus(form, 'ok', `Opening your email app. If nothing happens, write to ${contact}.`);
+        setStatus(form, 'ok', msg.mailto);
         mailtoFallback(data);
         return;
       }
 
       const token = captchaToken(form);
       if (token === null) {
-        setStatus(form, 'error', 'The security check is still loading. Wait a moment, then send again.');
+        setStatus(form, 'error', msg.loading);
         return;
       }
       if (token) data['cf-turnstile-response'] = token;
@@ -119,7 +145,7 @@ export function initBookingForms() {
       const label = button?.textContent;
       if (button) {
         button.disabled = true;
-        button.textContent = 'Sending…';
+        button.textContent = msg.sending;
       }
       setStatus(form, 'busy', '');
       try {
@@ -132,10 +158,11 @@ export function initBookingForms() {
         const body = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
         if (!res.ok || !body.ok) throw new Error(body.error || 'server');
         form.reset();
-        setStatus(form, 'ok', 'Received. We will email you to set a time.');
+        setStatus(form, 'ok', msg.ok);
       } catch (err) {
         const code = err instanceof Error ? err.message : 'server';
-        setStatus(form, 'error', messages[code] || messages.server);
+        const known = (errorCodes as readonly string[]).includes(code) ? (code as (typeof errorCodes)[number]) : 'server';
+        setStatus(form, 'error', msg[known]);
       } finally {
         resetCaptcha(form);
         if (button) {

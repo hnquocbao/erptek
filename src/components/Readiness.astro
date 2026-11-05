@@ -1,26 +1,20 @@
 ---
-const checks = [
-  'Our key procedures are written down where people can find them.',
-  'Customer, product and finance data live mainly in one system, not in scattered spreadsheets.',
-  'We know who owns each important set of data.',
-  'New staff can get answers without interrupting a senior colleague.',
-  'Most people follow the same file naming and folder rules.',
-  'We can export data from our main systems.',
-  'We have rules on what company data may go into AI tools.',
-  'We can name two or three tasks that eat hours every week.',
-];
+import { copy, type Lang } from '../i18n/copy';
+interface Props { lang: Lang }
+const { lang } = Astro.props;
+const t = copy[lang].readiness;
 ---
 <section class="ready" id="readiness" aria-labelledby="ready-title">
   <div class="wrap ready__grid">
     <div class="ready__intro">
-      <h2 id="ready-title">How ready is your warehouse?</h2>
-      <p>Eight statements. Tick the ones that are true today. Nothing is sent anywhere; this runs in your browser.</p>
+      <h2 id="ready-title">{t.title}</h2>
+      <p>{t.intro}</p>
     </div>
 
     <form class="checklist" data-readiness>
       <fieldset>
-        <legend class="visually-hidden">Readiness statements</legend>
-        {checks.map((c, i) => (
+        <legend class="visually-hidden">{t.legend}</legend>
+        {t.checks.map((c, i) => (
           <label class="check">
             <input type="checkbox" name={`c${i}`} />
             <span class="check__box" aria-hidden="true">
@@ -34,9 +28,10 @@ const checks = [
 
     <aside class="result" aria-live="polite" data-result>
       <p class="result__score"><span data-score>0</span><span class="result__of">/ 8</span></p>
-      <p class="result__zone" data-zone>Receiving dock</p>
-      <p class="result__advice" data-advice>Start with advice. We map where you stand and what to fix first, before any AI tool is chosen.</p>
-      <a class="btn btn--yellow" href="#book" data-ready-cta>Talk this through</a>
+      <p class="result__zone" data-zone>{t.zones[0].zone}</p>
+      <p class="result__advice" data-advice>{t.zones[0].advice}</p>
+      <a class="btn btn--yellow" href="#book" data-ready-cta>{t.cta}</a>
+      <script type="application/json" data-zones is:inline set:html={JSON.stringify(t.zones)}></script>
     </aside>
   </div>
 </section>
@@ -185,11 +180,9 @@ const checks = [
     const zone = result.querySelector<HTMLElement>('[data-zone]')!;
     const advice = result.querySelector<HTMLElement>('[data-advice]')!;
     const cta = result.querySelector<HTMLAnchorElement>('[data-ready-cta]')!;
-    const zones = [
-      { max: 3, zone: 'Receiving dock', advice: 'Start with advice. We map where you stand and what to fix first, before any AI tool is chosen.' },
-      { max: 6, zone: 'Half shelved', advice: 'You have a base to build on. Readiness work on data and workflows comes next, then a second brain.' },
-      { max: 8, zone: 'Ready to pick', advice: 'Your house is in order. A second brain and a first assistant for one team are a realistic next step.' },
-    ];
+    const zones: { max: number; zone: string; advice: string }[] = JSON.parse(
+      result.querySelector('script[data-zones]')?.textContent || '[]',
+    );
     const update = () => {
       const n = form.querySelectorAll('input:checked').length;
       const z = zones.find((x) => n <= x.max)!;
